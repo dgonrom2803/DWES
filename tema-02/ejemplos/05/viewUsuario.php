@@ -16,7 +16,7 @@
 
         echo "Hola Mundo";
         echo "<br>";
-        echo 'Soy '. $usuario;
+        echo 'Soy ' . $usuario;
 
         ?>
     </h4>
