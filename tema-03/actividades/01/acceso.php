@@ -8,7 +8,7 @@
     */
 
     # Model
-    include 'model/modelAccceso.php';
+    include 'models/modelAcceso.php';
 
     # Vista
 

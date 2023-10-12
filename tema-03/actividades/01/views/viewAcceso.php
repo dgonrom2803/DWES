@@ -3,8 +3,13 @@
 
 <head>
     <!-- Incluir head -->
-    <?php include 'views/layouts/head.html' ?>
-    <title>Actividad 3.1 Formulario Registro</title>
+    <title>Formulario Conversor</title>
+
+    <!-- Añadimos el php include para el css bootstrap -->
+    <?php
+    include "layouts/head.html";
+    ?>
+
 </head>
 
 <body>
@@ -14,59 +19,101 @@
         <!-- cabecera documento -->
         <header class="pb-3 mb-4 border-bottom">
             <i class="bi bi-calculator"></i>
-            <span class="fs-6">Actividad 3.1 Formulario Registro</span>
+            <span class="fs-6"></span>
         </header>
+        <menu>
 
-        <!-- menu  -->
-        <ul class="nav">
-            <?php if ($perfil == 'admin' or $perfil == 'editor'): ?>
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Nuevo</a>
-            </li>
+            <?php if ($perfil == "admin"): ?>
+
+                <!-- adminstradores -->
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Nuevo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Eliminar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Actualizar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Consultar</a>
+                    </li>
+                </ul>
+
+            <?php elseif ($perfil == "editor"): ?>
+
+                <!-- editores -->
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Nuevo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Actualizar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Consultar</a>
+                    </li>
+                </ul>
+
+            <?php else: ?>
+
+                <!-- usuarios -->
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Consultar</a>
+                    </li>
+                </ul>
+
             <?php endif; ?>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Eliminar</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Actualizazr</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" aria-disabled="true">Consultar</a>
-            </li>
-        </ul>
 
-        <legend>Formulario Registro</legend>
-        <form method="POST" action="acceso.php">
-            <table class="table">
-                <tbody>
+        </menu>
+
+        <!-- Tabla datos respuesta. -->
+        <div class="table-responsive">
+            <table class="table table-primary">
+                <thead>
                     <tr>
-                        <td>DECIMAL</td>
+                        <th scope="col">Campo</th>
+                        <th scope="col">Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="">
+                        <td scope="row">Usuario</td>
                         <td>
-                            <?= $valDecimal ?>
+                            <?= $usuario; ?>
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="">
+                        <td scope="row">email</td>
                         <td>
-                            <?= $operacionNombre ?>
+                            <?= $email; ?>
                         </td>
+                    </tr>
+                    <tr class="">
+                        <td scope="row">password</td>
                         <td>
-                            <?= $operacion ?>
+                            <?= $password; ?>
+                        </td>
+                    </tr>
+                    <tr class="">
+                        <td scope="row">perfil</td>
+                        <td>
+                            <?= $perfil; ?>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <!-- botones de accion  -->
-            <button type="reset" class="btn btn-secondary">Borrar</button>
-            <button type="submit" class="btn btn-primary">Registro</button>
+        </div>
 
-            <br>
-            <br>
-            <br>
+        <br>
 
-
-
+        <!-- Botón volver -->
+        <div class="btn-group" role="group">
+            <a class="btn btn-primary" href="index.php" role="button">VOLVER</a>
+        </div>
         </form>
-
 
         <!-- Pié del documento -->
         <?php include 'views/layouts/footer.html' ?>
