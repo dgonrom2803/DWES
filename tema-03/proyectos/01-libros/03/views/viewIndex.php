@@ -14,8 +14,12 @@
       <i class="bi bi-rocket-takeoff-fill"></i>
       <span class="fs-4">Proyecto 3.2 - Gestión de libros</span>
     </header>
-
     <legend>Tabla Libros</legend>
+
+    <!-- Menú Principal -->
+    <?php include 'views/partials/menu_prin.php' ?>
+ 
+    <!-- Muestra datos de la tabla -->
     <table class="table">
       <!-- Encabezado tabla -->
       <thead>
