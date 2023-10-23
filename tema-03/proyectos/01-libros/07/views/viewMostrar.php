@@ -16,7 +16,7 @@
             <span class="fs-6">Proyecto 3.1 - Gestión de libros</span>
         </header>
 
-        <legend>Formulario Muestra Libro</legend>
+        <legend>Formulario Edición Libro</legend>
 
         <!-- Formulario Nuevo Libro -->
         <form action="mostrar.php">
