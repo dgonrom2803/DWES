@@ -19,7 +19,7 @@
         <legend>Formulario Edición Libro</legend>
 
         <!-- Formulario Nuevo Libro -->
-        <form>
+        <form action="mostrar.php">
             <!-- id -->
             <div class="mb-3">
                 <label for="id" class="form-label">Id</label>

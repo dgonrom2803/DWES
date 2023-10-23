@@ -2,11 +2,20 @@
 
 $criterio = $_GET['criterio'];
 
-$indice_mostrar = buscar_en_tabla($libros, 'id', $id);
 
 //Cargo en un array todos los valores dek criterio de ordenacion
+$aux = array_column($libros, $criterio);
 
-$aux = array_column($libros, '$criterio');
+// Validar criterio
+if (!in_array($criterio, array_keys($libros[0]))) {
+    echo "No se ha encontrado el criterio";
+    exit();
+
+    
+}
+
+//Funcion array multisort
+array_multisort($aux, SORT_ASC, $libros);
 
 
 ?>
