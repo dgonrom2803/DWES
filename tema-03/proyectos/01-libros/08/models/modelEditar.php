@@ -8,6 +8,8 @@
             - id: Identificador del elemento a eliminar
     */
 
+    $libros = generar_tabla();
+    
     $id = $_GET['id'];
 
     $indice_editar = buscar_en_tabla($libros, 'id', $id);

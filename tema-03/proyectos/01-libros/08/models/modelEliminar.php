@@ -7,6 +7,7 @@
     Método GET:
             - id: Identificador del elemento a eliminar
     */
+    $libros = generar_tabla();
 
     $id = $_GET['id'];
 

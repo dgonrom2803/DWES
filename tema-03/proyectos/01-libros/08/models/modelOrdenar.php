@@ -1,5 +1,7 @@
 <?php 
 
+$libros = generar_tabla();
+
 $criterio = $_GET['criterio'];
 
 

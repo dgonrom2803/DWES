@@ -57,6 +57,7 @@ function generar_tabla()
             'precio' => 24.99
         ]
     ];
+    return $tabla;
 
 }
 

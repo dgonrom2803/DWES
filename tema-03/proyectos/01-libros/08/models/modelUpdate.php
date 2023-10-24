@@ -12,6 +12,7 @@
             - precio
     */
 
+    $libros = generar_tabla();
     $id = $_POST['id'];
     $titulo = $_POST['titulo'];
     $autor = $_POST['autor'];

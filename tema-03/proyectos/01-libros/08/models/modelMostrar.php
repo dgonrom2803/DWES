@@ -1,4 +1,5 @@
 <?php 
+$libros = generar_tabla();
 
 $id = $_GET['id'];
 

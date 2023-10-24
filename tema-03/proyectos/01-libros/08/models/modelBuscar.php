@@ -1,4 +1,5 @@
 <?php 
+$libros = generar_tabla();
 
 $expresion = $_GET['expresion'];
 
