@@ -92,4 +92,14 @@ function eliminar($tabla = [], $id)
 
 }
 
+
+function nuevo($tabla, $registro){
+    $tabla[] = $registro;
+    return $tabla;
+}
+
+function update($tabla, $edicion){
+    $tabla[] = $edicion;
+    return $tabla;
+}
 ?>

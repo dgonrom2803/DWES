@@ -19,9 +19,9 @@
                         Ordenar
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="ordenar.php?criterio=titulo">Título</a></li>
-                        <li><a class="dropdown-item" href="ordenar.php?criterio=autor">Autor</a></li>
-                        <li><a class="dropdown-item" href="ordenar.php?criterio=genero">Género</a></li>
+                        <li><a class="dropdown-item" href="ordenar.php?criterio=descripcion">Descripción</a></li>
+                        <li><a class="dropdown-item" href="ordenar.php?criterio=modelo">Modelo</a></li>
+                        <li><a class="dropdown-item" href="ordenar.php?criterio=unidades">Unidades</a></li>
                         <li><a class="dropdown-item" href="ordenar.php?criterio=precio">Precio</a></li>
                         
                     </ul>
