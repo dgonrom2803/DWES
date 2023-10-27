@@ -3,7 +3,7 @@
 
 <head>
     <?php include 'views/layouts/head.html' ?>
-    <title>Proyecto 3.2 - Gestión de articulos</title>
+    <title>Proyecto 3.1 - Gestión de articulos</title>
 </head>
 
 <body>
@@ -13,13 +13,13 @@
         <!-- cabecera documento -->
         <header class="pb-3 mb-4 border-bottom">
             <i class="bi bi-calculator"></i>
-            <span class="fs-6">Proyecto 3.2 - Gestión de articulos</span>
+            <span class="fs-6">Proyecto 3.1 - Gestión de articulos</span>
         </header>
 
-        <legend>Formulario Edición Articulo</legend>
+        <legend>Formulario Edición articulo</legend>
 
         <!-- Formulario Nuevo articulo -->
-        <form action="update.php?id=<?= $id ?>" method="POST">
+        <form action="mostrar.php?id=<?= $id ?>" method="POST">
             <!-- id -->
             <div class="mb-3">
                 <label for="descripcion" class="form-label">Id</label>
@@ -29,19 +29,19 @@
             <!-- Título -->
             <div class="mb-3">
                 <label for="descripcion" class="form-label">Descripcion</label>
-                <input type="text" class="form-control" name="descripcion" value="<?= $articulo['descripcion'] ?>">
+                <input type="text" class="form-control" name="descripcion" value="<?= $articulo['descripcion'] ?>" readonly>
                 <!-- <div class="form-text">Introduzca título articulo existente</div> -->
             </div>
             <!-- modelo -->
             <div class="mb-3">
                 <label for="modelo" class="form-label">Modelo</label>
-                <input type="text" class="form-control" name="modelo" value="<?= $articulo['modelo'] ?>">
+                <input type="text" class="form-control" name="modelo" value="<?= $articulo['modelo'] ?>" readonly>
                 <!-- <div class="form-text">Introduzca modelo del articulo</div> -->
             </div>
             <!-- Género -->
             <div class="mb-3">
                 <label for="categoria" class="form-label">Categoría</label>
-                <select class="form-select" aria-label="Default select example" name="categoria">
+                <select class="form-select" aria-label="Default select example" name="categoria" readonly>
                     <option selected disabled>Seleccione una categoría</option>
                     <?php foreach ($categorias as $key => $categoria): ?>
                         <option value="<?= $key ?>" 
@@ -55,19 +55,18 @@
             <!-- Precio -->
             <div class="mb-3">
                 <label for="unidades" class="form-label">Stock</label>
-                <input type="number" class="form-control" name="unidades"  value="<?= $articulo['unidades'] ?>">
+                <input type="number" class="form-control" name="unidades"  value="<?= $articulo['unidades'] ?>" readonly>
                 <!-- <div class="form-text">Introduzca Precio</div> -->
             </div>
             <div class="mb-3">
                 <label for="precio" class="form-label">Precio (€)</label>
-                <input type="number" class="form-control" name="precio" step="0.01" value="<?= $articulo['precio'] ?>">
+                <input type="number" class="form-control" name="precio" step="0.01" value="<?= $articulo['precio'] ?>" readonly>
                 <!-- <div class="form-text">Introduzca Precio</div> -->
             </div>
 
 
-            <a class="btn btn-secondary" href="index.php" role="button">Cancelar</a>
-            <button type="reset" class="btn btn-danger">Borrar</button>
-            <button type="submit" class="btn btn-primary">Actualizar</button>
+            <a class="btn btn-secondary" href="index.php" role="button">Volver</a>
+            
 
         </form>
 
@@ -79,7 +78,6 @@
 
 
         <!-- Pié del documento -->
-
 
     </div>
 
