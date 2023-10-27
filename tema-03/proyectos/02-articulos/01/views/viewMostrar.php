@@ -41,16 +41,8 @@
             <!-- Género -->
             <div class="mb-3">
                 <label for="categoria" class="form-label">Categoría</label>
-                <select class="form-select" aria-label="Default select example" name="categoria" readonly>
-                    <option selected disabled>Seleccione una categoría</option>
-                    <?php foreach ($categorias as $key => $categoria): ?>
-                        <option value="<?= $key ?>" 
-                            <?= ($articulo['categoria'] == $key) ? 'selected' : null ?>
-                        >
-                            <?= $categoria ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+                <input type="text" class="form-control" name="categoria" value="<?= $categorias[$articulo['categoria']] ?>" readonly>
+                
             </div>
             <!-- Precio -->
             <div class="mb-3">
