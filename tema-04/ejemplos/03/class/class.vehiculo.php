@@ -11,13 +11,14 @@ class Vehiculo
     private $velocidad;
     private $matricula;
 
-    public function __construct()
+    public function __construct($modelo = null, $nombre = null, $matricula = null, $velocidad = null)
     {
-        $this->modelo = null;
-        $this->nombre = null;
-        $this->velocidad = 0;
-        $this->matricula = null;
+        $this->modelo = $modelo;
+        $this->nombre = $nombre;
+        $this->matricula = $matricula;
+        $this->velocidad = $velocidad;
     }
+
 
 
     #Setters
@@ -57,6 +58,11 @@ class Vehiculo
     public function getVelocidad()
     {
         return $this->velocidad;
+    }
+
+    public function aumentarVelocidad()
+    {
+        $this->velocidad += 10;
     }
 }
 ?>
