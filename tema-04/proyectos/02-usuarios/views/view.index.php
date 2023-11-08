@@ -36,27 +36,27 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($articulos as $articulo): ?>
+                <?php foreach ($articulos->getTabla() as $articulo): ?>
                     <tr>
-                        <td><?= $articulo['id'] ?></td>
-                        <td><?= $articulo['descripcion'] ?></td>
-                        <td><?= $articulo['modelo'] ?></td>
-                        <td><?= $marcas[$articulo['marca']] ?></td>
-                        <td><?= implode(', ', mostrarCategorias($categorias, $articulo['categorias']))?></td>
-                        <td class="text-end"><?= $articulo['unidades'] ?></td>
-                        <td class="text-end"><?= number_format($articulo['precio'], 2, ',', '.') ?></td>
+                        <td><?= $articulo->getId() ?></td>
+                        <td><?= $articulo->getDescripcion() ?></td>
+                        <td><?= $articulo->getModelo() ?></td>
+                        <td><?= $marcas[$articulo->getMarca()] ?></td>
+                        <td><?= implode(', ', ArrayArticulos::mostrarCategorias($categorias, $articulo->getCategorias()))?></td>
+                        <td class="text-end"><?= $articulo->getUnidades() ?></td>
+                        <td class="text-end"><?= number_format($articulo->getPrecio(), 2, ',', '.') ?></td>
 
                         <!-- boton eliminar  -->
                         <td>
-                            <a href="eliminar.php?id=<?= $articulo['id'] ?>" title="Eliminar">
+                            <a href="eliminar.php?indice=<?= $indice ?>" title="Eliminar">
                                 <i class="bi bi-trash3"></i></a>
 
                             <!-- boton editar  -->
 
-                            <a href="editar.php?id=<?= $articulo['id'] ?>" title="Editar">
+                            <a href="editar.php?indice=<?= $indice ?>" title="Editar">
                                 <i class="bi bi-pencil-square"></i></a>
 
-                            <a href="mostrar.php?id=<?= $articulo['id'] ?>" title="Mostrar">
+                            <a href="mostrar.php?indice=<?= $indice ?>" title="Mostrar">
                                 <i class="bi bi-clipboard2-plus"></i></a>
                         </td>
                     </tr>

@@ -1,11 +1,12 @@
 <?php 
 
-include 'libs/crud_funciones.php';
+include 'class/class.articulo.php';
+include 'class/class.arrayArticulo.php';
 
-include 'models/modelIndex.php';
+include 'models/model.index.php';
 
 // Cargo la vista
-include "views/viewIndex.php";
+include "views/view.index.php";
 
 
 
