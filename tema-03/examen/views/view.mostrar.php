@@ -37,9 +37,9 @@
             </div>
 
             <!-- Campo nacionalidad -->
-            <div class="mb3">
-                <label class="form-label">Nacionalidad</label>
-                <input name="nacionalidad" type="text" class="form-control" value="<?= $pelicula['nacionalidad'] ?>" readonly>
+            <div class="mb-3">
+                <label for="pais" class="form-label">País</label>
+                <input type="text" class="form-control" value="<?= $paises[$pelicula['pais']] ?>" disabled>
             </div>
 
             <!-- Campo Año -->
@@ -50,14 +50,10 @@
 
             <!-- Campo para mostrar los generos  -->
 
-            <div class="mb3">
-                <label class="form-label">Generos</label>
-                <input name="generos" type="number" class="form-control" value="<?= $pelicula['generos'] ?>">
-                <?php foreach ($pelicula as $key => $campo): ?>
-                        <?php if ($key == 'generos'): ?>
-                            <?= implode(', ', mostrarGeneros($generos, $campo)) ?>
-                            <?php endif; ?>
-                            <?php endforeach; ?>
+            <div class="mb-3">
+                <label class="form-label">Géneros</label>
+                <input type="text" class="form-control"
+                    value="<?= implode(', ', mostrarGeneros($generos, $pelicula['generos'])) ?>" readonly>
             </div>
 
             <br>
