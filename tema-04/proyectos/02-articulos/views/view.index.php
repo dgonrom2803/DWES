@@ -16,6 +16,10 @@
 
         <!-- Menú Principal -->
         <?php include 'views/partials/menu_prin.php' ?>
+        
+
+        <!-- Notificación -->
+        <?php include 'views/partials/notificacion.php' ?>
 
         <!-- Muestra datos de la tabla -->
         <table class="table">
@@ -36,7 +40,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($articulos->getTabla() as $articulo): ?>
+                <?php foreach ($articulos->getTabla() as $indice => $articulo): ?>
                     <tr>
                         <td><?= $articulo->getId() ?></td>
                         <td><?= $articulo->getDescripcion() ?></td>

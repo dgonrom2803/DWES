@@ -82,7 +82,7 @@ class ArrayArticulos
             'Portátil - HP 15-DB0074NS',
             'HP 15-DB0074NS',
             0,
-            [1,2,3],
+            [0,1,3],
             120,
             379
         );
@@ -96,7 +96,7 @@ class ArrayArticulos
             'Portátil - AMD A4-9125, 8GB RAM, 125GB',
             'HP 255 G7, 15.6',
             0,
-            [1,2,3],
+            [1,2,4],
             200,
             20.5
         );
@@ -110,7 +110,7 @@ class ArrayArticulos
             'PC Sobremesa - Lenovo Intel Core i3-8100',
             'IdeaCentre 510S-07ICB',
             1,
-            [1,2,3],
+            [0,2,4],
             50,
             12.95
         );
@@ -138,7 +138,7 @@ class ArrayArticulos
             'Mouse - Razer DeathAdder Elite',
             'RAZER DEATHADDER ELITE',
             0,
-            [1,2,3],
+            [1,2],
             10,
             15.95
         );
@@ -161,6 +161,11 @@ class ArrayArticulos
 
     public function create(Articulo $data){
         $this->tabla[]= $data;
+    }
+    public function delete($indice){
+        unset($this->tabla[$indice]);
+        array_values($this->tabla);
+    
     }
 }
 ?>
