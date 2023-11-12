@@ -1,14 +1,21 @@
-<?php 
+<?php
 
-// Librería
-include 'libs/crud_funciones.php';
+/*
 
-// Model
-include 'models/modelMostrar.php';
+    Controlador: mostrar.php
+    Descripción: mostrar un formulario con los detalles no editables
+    del libro seleccionado
+*/
 
-// Cargo la vista
-include "views/viewMostrar.php";
+# Librería
+include 'class/class.articulo.php';
+include 'class/class.arrayArticulo.php';
+
+# Model
+include 'models/model.mostrar.php';
 
 
+# Vista
+include 'views/view.mostrar.php';
 
 ?>

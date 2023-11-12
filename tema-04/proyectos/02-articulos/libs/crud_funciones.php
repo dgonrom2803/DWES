@@ -55,7 +55,7 @@ function generar_tabla()
 
 function generar_categorias()
 {
-    $marcas = [
+    $categorias = [
         'Portátil',
         'PC sobremesa',
         'Componente',
@@ -63,7 +63,7 @@ function generar_categorias()
         'Impresora'
     ];
 
-    return $marcas;
+    return $categorias;
 }
 
 function generar_tabla_marcas()

@@ -1,14 +1,21 @@
-<?php 
+<?php
 
-// Librería
-include 'libs/crud_funciones.php';
+    /*
 
-// Model
-include 'models/modelEditar.php';
+        Controlador: editar.php
+        Descripción: Controlador Editar
 
-// Cargo la vista
-include "views/viewEditar.php";
+    */
 
 
+    // Clases
+    include("class/class.articulo.php");
+    include("class/class.arrayArticulo.php");
+
+    // Model
+    include 'models/model.editar.php';
+
+    // Vista
+    include 'views/view.editar.php';
 
 ?>

@@ -69,9 +69,9 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="5">Nº Articulos
-                        <?= count($articulos) ?>
-                    </td>
+                    <td colspan="7"><b>Nº de Articulos=
+                            <?= count($articulos->getTabla()) ?>
+                        </b></td>
                 </tr>
             </tfoot>
 

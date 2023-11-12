@@ -12,7 +12,7 @@ $articulos->getDatos();
 $categorias = ArrayArticulos::getCategorias();
 $marcas = ArrayArticulos::getMarcas();
 
-$id = $_GET['id'];
+$id = $_GET['indice'];
 
 $articulos->delete($id);
 

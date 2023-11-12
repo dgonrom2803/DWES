@@ -59,7 +59,6 @@
             <br>
             <div class="mb3" role="group">
                 <a class="btn btn-secondary" href="index.php" role="button">Volver</a>
-
             </div>
         </form>
         <!-- Incluimos Partials footer -->

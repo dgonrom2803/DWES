@@ -1,17 +1,13 @@
 <?php
-$articulos = generar_tabla();
-$categorias = generar_categorias();
+// Obtener categorías, marcas y cargar los artículos
+$categorias = ArrayArticulos::getCategorias();
+$marcas = ArrayArticulos::getMarcas();
+$articulos = new ArrayArticulos();
+$articulos->getDatos();
 
-$id = $_GET['id'];
+$idBuscado = $_GET['indice'];
 
-$indice = buscar_en_tabla($articulos,'id', $id);
-if ($indice !== false) {
-    // Elimino el libro seleccionado
-    $articulo = $articulos[$indice];
-    
+# Usamos la funcion buscar de ArrayArticulos
+$articulo = $articulos->buscar($idBuscado);
 
-} else {
-    echo "No se encontró el elemento a eliminar";
-    exit();
-}
 ?>

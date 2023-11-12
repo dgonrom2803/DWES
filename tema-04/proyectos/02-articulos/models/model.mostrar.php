@@ -1,16 +1,26 @@
-<?php 
-$articulos = generar_tabla();
-$categorias = generar_categorias();
+<?php
+    /*
+        Modelo: modelEditar.php
+        Descripción: editar los detalles de un artículo
 
-$id = $_GET['id'];
+        Método GET:
+            - id del articulo que quiero editar
+    */
+    setlocale(LC_MONETARY,"es_ES"); // Indicamos
 
-$indice_mostrar = buscar_en_tabla($articulos, 'id', $id);
+    # Cargamos los datos a partir de los métodos estáticos de la clase
+    $categorias = ArrayArticulos::getCategorias(); // getCategorias -> Método estático
+    $marcas = ArrayArticulos::getMarcas(); // getMarcas -> Método estático
 
-if ($indice_mostrar !== false ) {
-    $articulo = $articulos[$indice_mostrar];
-} else {
-    echo ("articulo no encontrado");
-}
+    # Cargamos los datos
+    $articulos = new ArrayArticulos();
 
+    $articulos->getDatos();
+
+    # Debemos buscar en la tabla el id del artículo a editar
+    $idMostrar = $_GET['indice'];
+
+    # Usamos la funcion buscar de ArrayArticulos
+    $articulo = $articulos->buscar($idMostrar);
 
 ?>

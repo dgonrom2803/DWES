@@ -1,15 +1,22 @@
-<?php 
+<?php
 
-// Librería
-include 'libs/crud_funciones.php';
+    /*
 
-// Model
+        Controlador: update.php
+        Descripción: actualiza los detalles  de un  artículo
+        
 
-include 'models/modelUpdate.php';
+    */
 
-// Cargo la vista
-include "views/viewIndex.php";
+    # Librería -> Cargamos las clases
+    include 'class/class.articulo.php';
+    include 'class/class.arrayArticulo.php';
+
+    # Model
+    include 'models/model.update.php';
 
 
+    # Vista
+    include 'views/view.index.php';
 
 ?>
