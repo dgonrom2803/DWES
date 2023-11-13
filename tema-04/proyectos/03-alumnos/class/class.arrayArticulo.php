@@ -167,14 +167,18 @@ class ArrayArticulos
         array_values($this->tabla);
     
     }
-    public function update($indice, $articulo) {
+    public function update(Articulo $data, $indice) {
         // toma un indice y modifica los valores en la tabla de ese indice
-        $this->tabla[$indice] = $articulo;
+        $this->tabla[$indice] = $data;
     }
 
     public function buscar($indice){
         // retornamos los valores de ese indice en la tabla de la clase
         return $this->tabla[$indice]; 
+    }
+
+    public function order(){
+        
     }
 }
 ?>
