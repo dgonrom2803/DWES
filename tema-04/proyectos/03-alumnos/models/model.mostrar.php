@@ -1,26 +1,16 @@
 <?php
-    /*
-        Modelo: modelEditar.php
-        Descripción: editar los detalles de un artículo
+// Obtener categorías, marcas y cargar los artículos
+setlocale(LC_MONETARY, "es_ES");
+$asignaturas = ArrayAlumno::getAsignaturas();
 
-        Método GET:
-            - id del articulo que quiero editar
-    */
-    setlocale(LC_MONETARY,"es_ES"); // Indicamos
+$cursos = ArrayAlumno::getCursos();
 
-    # Cargamos los datos a partir de los métodos estáticos de la clase
-    $categorias = ArrayArticulos::getCategorias(); // getCategorias -> Método estático
-    $marcas = ArrayArticulos::getMarcas(); // getMarcas -> Método estático
+$alumnos = new ArrayAlumno();
+$alumnos->getAlumnos();
 
-    # Cargamos los datos
-    $articulos = new ArrayArticulos();
+$idBuscado = $_GET['indice'];
 
-    $articulos->getDatos();
-
-    # Debemos buscar en la tabla el id del artículo a editar
-    $idMostrar = $_GET['indice'];
-
-    # Usamos la funcion buscar de ArrayArticulos
-    $articulo = $articulos->buscar($idMostrar);
+# Usamos la funcion buscar de ArrayArticulos
+$alumno = $alumnos->buscarID($idBuscado);
 
 ?>

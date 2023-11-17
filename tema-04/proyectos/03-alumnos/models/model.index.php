@@ -1,14 +1,18 @@
 <?php
+
+/*
+
+    Modelo: model.index.php
+    Descripcion: genera en array de objetos de los artículos
+
+*/
+
 setlocale(LC_MONETARY, "es_ES");
-$categorias = ArrayArticulos::getCategorias();
-$marcas = ArrayArticulos::getMarcas();
+$asignaturas = ArrayAlumno::getAsignaturas();
 
-# Creamos un objeto de la clase ArrayArticulos
-$articulos = new ArrayArticulos();
+$cursos = ArrayAlumno::getCursos();
 
-#Cargo los datos
-$articulos->getDatos();
-
-
+$alumnos = new ArrayAlumno();
+$alumnos->getAlumnos();
 
 ?>

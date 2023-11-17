@@ -13,73 +13,61 @@
         <!-- cabecera documento -->
         <?php include "views/partials/header.php" ?>
 
-        <legend>Formulario Nuevo Articulo</legend>
+        <legend>Formulario Editar Alumno</legend>
 
         <form action="update.php?indice=<?= $idBuscado ?>" method="POST">
 
         <div class="form-floating mb-3">
-                
-                <input type="number" class="form-control" name="id" value="<?=$articulo->getId()?>" readonly>
-                <label class="form-label">id</label>
-            </div>
-            
-            <!-- descripción -->
-            <div class="form-floating mb-3">
-                
-                <input type="text" class="form-control" name="descripcion" value="<?=$articulo->getDescripcion()?>">
-                <label class="form-label">Descripción</label>
+                <input type="number" class="form-control" name="id" value="<?= $alumno->getId()?>">
+                <label for="descripcionArticulo" class="form-label">ID:</label>
             </div>
 
-            <!-- Modelo -->
             <div class="form-floating mb-3">
-                
-                <input type="text" class="form-control" name="modelo" value="<?=$articulo->getModelo()?>">
-                <label class="form-label">Modelo</label>
+                <input type="text" class="form-control" name="nombre" value="<?= $alumno->getNombre()?>">
+                <label for="descripcionArticulo" class="form-label">Nombre: </label>
             </div>
 
-            <!-- Marca -->
             <div class="form-floating mb-3">
-                
-                <select class="form-select" aria-label="Default select example" name="marca">
-                    <?php foreach($marcas as $key => $marca): ?>
-                        <option value="<?=$key?>"
-                        <?=($articulo->getMarca() == $key)?'selected':null ?>
-                        >
-                        <?=$marca?></option>
+                <input type="text" class="form-control" name="apellidos" value="<?= $alumno->getApellidos() ?>">
+                <label for="modeloaArticulo" class="form-label">Apellidos: </label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="email" value="<?= $alumno->getEmail() ?>">
+                <label for="modeloaArticulo" class="form-label">Email: </label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="fechaNac" value="<?= $alumno->getFechaNacimiento()?>">
+                <label for="modeloaArticulo" class="form-label">Fecha Nacimiento: </label>
+            </div>
+
+            <!-- Curso -->
+            <div class="form-floating mb-3">
+                <select class="form-select" aria-label="SeleccionarMarca" name="cursos">
+                    <option selected disabled>Seleccione curso</option>
+                    <?php foreach ($cursos as $key => $curso): ?>
+                        <option value="<?= $key ?>" <?=($alumno->getCurso() == $key)?'selected':null ?>>
+                            <?= $curso ?>
+                        </option>
                     <?php endforeach; ?>
                 </select>
-                <label class="form-label">Marca</label>
+                <label for="cursos" class="form-label">Curso: </label>
             </div>
 
-            <!-- Unidades -->
-            <div class="form-floating mb-3">
-                
-                <input type="number" class="form-control" name="unidades" value="<?=$articulo->getUnidades()?>">
-                <label class="form-label">Unidades</label>
-            </div>
-
-            <!-- Precio -->
-            <div class="form-floating mb-3">
-                
-                <input type="number" class="form-control" name="precio" step="0.01" value="<?=$articulo->getPrecio()?>">
-                <label class="form-label">Precio (€)</label>
-            </div>
-
-            <!-- Categorías -->
+            <!-- Asignaturas -->
             <div class="mb-3">
-                <label class="form-floating mb-3">Seleccionar Categorías</label>
-                <div class="form-control">
-                    <?php foreach ($categorias as $indice => $categoria): ?>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="<?= $indice ?>" name="categorias[]"
-                            <?=(in_array($indice,$articulo->getCategorias()) ? 'checked': null)?>
-                            >
-                            <label class="form-check-label" for="">
-                                <?= $categoria ?>
-                                <label>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
+                <label for="asignaturas" class="form-label">Seleccione Asignaturas: </label>
+                <?php foreach ($asignaturas as $indice => $asignatura): ?>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="<?= $indice ?>" name="asignaturas[]" 
+                        <?=(in_array($indice,$alumno->getAsignaturas()) ? 'checked': null)?>
+                        >
+                        <label class="form-check-label" for="">
+                            <?= $asignatura ?>
+                        </label>
+                    </div>
+                <?php endforeach; ?>
             </div>
 
             <a class="btn btn-secondary" href="index.php" role="button">Cancelar</a>

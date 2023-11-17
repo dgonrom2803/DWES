@@ -4,8 +4,8 @@
 #Descripción: mostrar un formulario que permita añadir nuevo articulo
 
 // Librería
-include 'class/class.articulo.php';
-include 'class/class.arrayArticulo.php';
+include 'class/class.alumno.php';
+include 'class/class.arrayAlumnos.php';
 
 include 'models/model.nuevo.php';
 

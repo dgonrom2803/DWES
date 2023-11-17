@@ -1,8 +1,8 @@
 <?php 
 
 // Librería
-include 'class/class.arrayArticulo.php';
-include 'class/class.articulo.php';
+include 'class/class.arrayAlumnos.php';
+include 'class/class.alumno.php';
 
 // Model
 include 'models/model.eliminar.php';

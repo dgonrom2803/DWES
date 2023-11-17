@@ -1,22 +1,31 @@
 <?php
 
-/*
-Modelo: modelEliminar.php
-Descripción: Elimina un elemento de la tabla
+// Model: model.eliminar.php
 
-Método GET:
-        - id: Identificador del elemento a eliminar
-*/
-$articulos = new ArrayArticulos();
-$articulos->getDatos();
-$categorias = ArrayArticulos::getCategorias();
-$marcas = ArrayArticulos::getMarcas();
+// Descripción: eliminar un elemto de la tabla
 
+setlocale(LC_MONETARY, "es_ES");
+$asignaturas = ArrayAlumno::getAsignaturas();
+
+$cursos = ArrayAlumno::getCursos();
+
+$alumnos = new ArrayAlumno();
+$alumnos->getAlumnos();
+
+
+// No comprendo porqué se llama indice y no id
 $id = $_GET['indice'];
 
-$articulos->delete($id);
+if ($id !== false) {
+    // elimino elemento seleccionado 
+    $alumnos->delete($id);
 
-$notificacion = "Articulo eliminado con éxito";
+    # Generamos notificación
+    $notificacion = "Alumno eliminado con éxito";
 
+} else {
+    echo 'ERROR: libro no encontrado';
+    exit();
+}
 
 ?>
