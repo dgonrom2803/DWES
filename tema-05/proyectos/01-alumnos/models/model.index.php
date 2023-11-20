@@ -1,13 +1,11 @@
 <?php
 setlocale(LC_MONETARY, "es_ES");
-$categorias = ArrayArticulos::getCategorias();
-$marcas = ArrayArticulos::getMarcas();
 
-# Creamos un objeto de la clase ArrayArticulos
-$articulos = new ArrayArticulos();
+// Conecto con la base de datos
+$db = new Fp();
 
-#Cargo los datos
-$articulos->getDatos();
+// Objeto result con los detalles del alumno
+$alumnos = $db->getAlumnos();
 
 
 

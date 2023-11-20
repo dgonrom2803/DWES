@@ -3,7 +3,7 @@
 
 <head>
     <?php include 'views/layouts/head.html' ?>
-    <title>Proyecto 3.2 - Gestión de articulos</title>
+    <title>Proyecto 5.1 - Gestión de alumnos</title>
 </head>
 
 <body>
@@ -12,7 +12,7 @@
         <!-- Cabecera documento -->
         <?php include 'views/partials/header.php'; ?>
 
-        <legend>Tabla Articulos</legend>
+        <legend>Tabla Alumnos</legend>
 
         <!-- Menú Principal -->
         <?php include 'views/partials/menu_prin.php' ?>
@@ -28,27 +28,28 @@
                 <tr>
                     <!-- personalizado -->
                     <th>Id</th>
-                    <th>Descripcion</th>
-                    <th>Modelo</th>
-                    <th>Marca</th>
-                    <th>Categorias</th>
-                    <th class="text-end">Stock</th>
-                    <th class="text-end">Precio</th>
+                    <th>Alumno</th>
+                    <th></th>
+                    <th>DNI</th>
+                    <th>Poblacion</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                    <th>Curso</th>
                     <th>Acciones</th>
 
 
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($articulos->getTabla() as $indice => $articulo): ?>
+                <?php foreach ($alumnos->getTabla() as $indice => $alumno): ?>
                     <tr>
-                        <td><?= $articulo->getId() ?></td>
-                        <td><?= $articulo->getDescripcion() ?></td>
-                        <td><?= $articulo->getModelo() ?></td>
-                        <td><?= $marcas[$articulo->getMarca()] ?></td>
-                        <td><?= implode(', ', ArrayArticulos::mostrarCategorias($categorias, $articulo->getCategorias()))?></td>
-                        <td class="text-end"><?= $articulo->getUnidades() ?></td>
-                        <td class="text-end"><?= number_format($articulo->getPrecio(), 2, ',', '.') ?></td>
+                        <td><?= $alumno->getId() ?></td>
+                        <td><?= $alumno->getDescripcion() ?></td>
+                        <td><?= $alumno->getModelo() ?></td>
+                        <td><?= $marcas[$alumno->getMarca()] ?></td>
+                        <td><?= implode(', ', ArrayArticulos::mostrarCategorias($categorias, $alumno->getCategorias()))?></td>
+                        <td class="text-end"><?= $alumno->getUnidades() ?></td>
+                        <td class="text-end"><?= number_format($alumno->getPrecio(), 2, ',', '.') ?></td>
 
                         <!-- boton eliminar  -->
                         <td>
@@ -70,7 +71,7 @@
             <tfoot>
                 <tr>
                     <td colspan="7"><b>Nº de Articulos=
-                            <?= count($articulos->getTabla()) ?>
+                            <?= count($alumnos->getTabla()) ?>
                         </b></td>
                 </tr>
             </tfoot>
