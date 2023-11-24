@@ -1,20 +1,11 @@
 <?php
-
-
-
-/* 
-    class.fp.php
-    Métodos necesarios para la gestión de BBDD de fp
-
-    En este caso sólo los métodos pertenecientes a la tabla Alumnos
-*/
-
 class Fp extends Conexion
 {
-    /* 
-        getAlumnos()
+    /*
+    getAlumnos()
 
-        Devuelve un objeto conjunto resultados (mysqli_result) con los detalles de todos los alumnos
+    Devuelve un objeto conjunto resultados (mysqli_result)
+    con los detalles de todos los alumnos
     */
 
     public function getAlumnos()
@@ -25,37 +16,52 @@ class Fp extends Conexion
                     alumnos.email,
                     alumnos.telefono,
                     alumnos.poblacion,
-                    alumnos.dni
-                    timestampdiff(YEAR, alumnos.fechaNac, NOW() ) edad,
+                    alumnos.dni,
+                    timestampdiff(YEAR, alumnos.fechaNac,NOW() ) edad,
                     cursos.nombreCorto curso
-                FROM alumnos
-                INNER JOIN 
+                FROM
+                    alumnos
+                    INNER JOIN 
                     cursos
-                    ON alumnos.id_curso = curso.id
+                    ON alumnos.id_curso = cursos.id
                 ORDER BY id";
+        #Ejecutamos directamente SQL
+        //Objeto de la clase mysqli_result
+        //$result = $this->db->query($sql);
+
+        #Mediante Plantilla SQL o Prepare
+        //Objeto clase mysqli_stmt
+        $stmt = $this->db->prepare($sql);
+
+        //ejecuto
+        $stmt->execute();
+
+        //objeto clase mysqli_result
+        $result = $stmt->get_result();
+
+        return $result;
     }
 
-    // Objeto clase mysqli_stmt
-    $stmt = $this->db-prepare($sql);
+    public function getCursos()
+    {
+        $sql = "SELECT
+                    id, 
+                    nombreCorto curso 
+                FROM 
+                    cursos 
+                ORDER BY id";
+                
+        #Mediante Plantilla SQL o Prepare
+        //Objeto clase mysqli_stmt
+        $stmt = $this->db->prepare($sql);
 
-    // Ejecuto
-    $stmt->execute();
+        //ejecuto
+        $stmt->execute();
 
-    // Objeto clase mysqli_result
-    $result = $stmt->get_result();
+        //objeto clase mysqli_result
+        $result = $stmt->get_result();
+
+        return $result;        
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ?>

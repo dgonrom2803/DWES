@@ -1,18 +1,20 @@
-<?php 
 
-#Controlador: nuevo.php
-#Descripción: mostrar un formulario que permita añadir nuevo articulo
+<?php
 
-// Librería
-include 'class/class.articulo.php';
-include 'class/class.arrayArticulo.php';
+    /*
 
-include 'models/model.nuevo.php';
+        Controlador: nuevo.php
+        Descripción: mostrar un formulario que permita añadir nuevo libro
+    */
 
+    # Class
+    include 'class/class.conexion.php';
+    include 'class/class.fp.php';
 
-// Cargo la vista
-include "views/view.nuevo.php";
+    # Model
+    include 'models/model.nuevo.php';
 
-
+    # Vista
+    include 'views/view.nuevo.php';
 
 ?>

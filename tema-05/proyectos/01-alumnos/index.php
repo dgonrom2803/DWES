@@ -1,13 +1,17 @@
 <?php 
+    /*
+        Controlador index.php
+        Muestra los detalles de lso articulos
+    */
 
-include 'class/class.articulo.php';
-include 'class/class.arrayArticulo.php';
+    #clases
+    include("class/class.conexion.php");
+    include("class/class.fp.php");
 
-include 'models/model.index.php';
+    #model
+    include("models/model.index.php");
 
-// Cargo la vista
-include "views/view.index.php";
-
-
+    #views
+    include("views/view.index.php");
 
 ?>
