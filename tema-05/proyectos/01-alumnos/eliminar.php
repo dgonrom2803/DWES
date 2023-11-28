@@ -1,15 +1,20 @@
-<?php 
+<?php
 
-// Librería
-include 'class/class.arrayArticulo.php';
-include 'class/class.articulo.php';
+    /*
 
-// Model
-include 'models/model.eliminar.php';
+        Controlador: eliminar.php
+        Descripción: permite eliminar un elemento de la tabla
+    */
 
-// Cargo la vista
-include "views/view.index.php";
+    # Librería
+    include 'class/class.articulo.php';
+    include 'class/class.arrayArticulo.php';
+
+    # Model
+    include 'models/model.eliminar.php';
 
 
+    # Vista
+    include 'views/view.index.php';
 
 ?>

@@ -2,93 +2,84 @@
 <html lang="es">
 
 <head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php include "views/layouts/head.html" ?>
-
+    <?php include 'views/layouts/head.html' ?>
+    <title>Proyecto 4.2 - Gestión Artículos POO</title>
 </head>
 
 <body>
+    <!-- Capa principal -->
     <div class="container">
-        <!-- cabecera documento -->
-        <?php include "views/partials/header.php" ?>
 
-        <legend>Articulo seleccionado</legend>
+        <!-- cabecera documento -->
+        <?php include 'views/partials/header.php' ?>
+
+        <legend>Formulario Mostrar Artículo</legend>
+
+        <!-- Formulario Mostrar Artículo -->
         <form>
 
-            <form action="mostrar.php">
+            <!-- id -->
+            <div class="mb-3">
+                <label for="titulo" class="form-label">Id</label>
+                <input type="text" class="form-control" value="<?= $articulo->getId() ?>" disabled>
+            </div>
+            <!-- Descripción -->
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <input type="text" class="form-control" value="<?= $articulo->getDescripcion() ?>"
+                    disabled>
+            </div>
+            <!-- Modelo -->
+            <div class="mb-3">
+                <label for="modelo" class="form-label">Modelo</label>
+                <input type="text" class="form-control" value="<?= $articulo->getModelo() ?>" disabled>
+            </div>
+            <!-- Marca Select -->
+            <div class="mb-3">
+                <label for="marca" class="form-label">Marca</label>
+                <input type="text" class="form-control"
+                    value="<?= $marcas[$articulo->getMarca()] ?>" disabled>
+            </div>
+            <!-- Unidades -->
+            <div class="mb-3">
+                <label for="unidades" class="form-label">Unidades</label>
+                <input type="number" class="form-control"step="0.01"
+                    value="<?= $articulo->getUnidades() ?>" disabled>
+            </div>
+            <!-- Precio -->
+            <div class="mb-3">
+                <label for="precio" class="form-label">Precio (€)</label>
+                <input type="number" class="form-control" step="0.01" value="<?= $articulo->getPrecio() ?>"
+                    disabled>
+            </div>
 
-                <div class="mb-3">
-                    <label for="id" class="form-label">Id: </label>
-                    <input type="text" class="form-control" name="id" value="<?= $articulo->getId() ?>" disabled>
-
-                </div>
-
-                <div class="mb-3">
-                    <label for="descripcion" class="form-label">Descripción: </label>
-                    <input type="text" class="form-control" name="descripcion" value="<?= $articulo->getDescripcion() ?>"
-                        disabled>
-
-                </div>
-
-                <div class="mb-3">
-                    <label for="modelo" class="form-label">Modelo: </label>
-                    <input type="text" class="form-control" name="modelo" value="<?= $articulo->getModelo() ?>" disabled>
-
-                </div>
-
-                <!-- Falta poner que no muestre los números sino los nombres. -->
-                <!-- MARCAS -->
-                <div class="mb-3">
-                    <label for="categoria" class="form-label">Marcas: </label>
-                    <input type="text" class="form-control" name="categoria" value="<?= $articulo->getMarca() ?>"
-                        disabled>
-
-                </div>
-
-                <!-- CATEGORIAS -->
-                <div class="mb-3">
-                    <label for="categoria" class="form-label">Categoria: </label>
-                    <input type="text" class="form-control" name="categoria"
-                        value="<?= implode(", ", $articulo->getCategorias()) ?>" disabled>
-
-                </div>
-
-                <div class="mb-3">
-                    <label for="unidades" class="form-label">Unidades: </label>
-                    <input type="number" class="form-control" name="unidades" value="<?= $articulo->getUnidades() ?>"
-                        disabled>
-
-                </div>
-
-                <div class="mb-3">
-                    <label for="precio" class="form-label">Precio: </label>
-                    <input type="number" class="form-control" name="precio" value="<?= $articulo->getPrecio() ?>" disabled>
-
-                </div>
-
-                <!-- Botones de acción -->
-
-                <div class="btn-group" role="group">
-
-                    <a class="btn btn-primary" href="index.php" role="button">Volver</a>
-
-                </div>
-                <br>
-                <br>
-                <br>
+             <!-- Categorías -->
+             <div class="mb-3">
+                <label for="marca" class="form-label">Categorías</label>
+                <input type="text" class="form-control" 
+                    value="<?= implode(', ', ArrayArticulos::mostrarCategorias($categorias, $articulo->getCategorias())) ?>" disabled>
+            </div>
 
 
-            </form>
+            <!-- botones de acción -->
+            <a class="btn btn-primary" href="index.php" role="button">Volver</a>
+
+        </form>
+
+        <br>
+        <br>
+        <br>
+
+
+
+
+        <!-- Pié del documento -->
+        <?php include 'views/partials/footer.html' ?>
+
     </div>
-    <?php
-    'views/partials/footer.html';
-    ?>
-    <!-- javascript bootstrap 512 -->
-    <?php
-    include "views/layouts/javascript.html";
-    ?>
+
+    <!-- javascript bootstrap 532 -->
+    <?php include 'views/layouts/javascript.html' ?>
 </body>
 
 </html>

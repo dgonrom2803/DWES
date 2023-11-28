@@ -1,26 +1,23 @@
-<?php 
-$articulos = generar_tabla();
-$categorias = generar_categorias();
+<?php
 
-$expresion = $_GET['expresion'];
+    /*
 
+        Modelo: model.buscar.php
+        Descripcion: filtra los artículos  a partir de la expresión búsqueda
 
-//Cargo en un array todos los valores dek expresion de ordenacion
-$aux = array_column($articulos, $expresion);
+        Método GET:
+                    - expresion: prompt o expresión de búsqueda
+    */
 
-# Filtrar la tabla a partir de la expresion
-$aux = [];
-foreach ($articulos as $articulo) {
-    if(array_search($expresion, $articulo, false)){
-        $aux[]= $articulo;
+    # Cargo los datos
+    $categorias = generar_tabla_categorias();
+    $articulos = generar_tabla();
 
-    }
-}
-    # Validar búsqueda
-    if (!empty($aux)){
-        $articulos = $aux;
+    # Cargo la expresion de búsqueda
+    $expresion = $_GET['expresion'];
 
-    }
+    # Filtrar la tabla  a partir de esa expresión
+    $articulos  = filtrar($articulos, $expresion);
 
 
 ?>

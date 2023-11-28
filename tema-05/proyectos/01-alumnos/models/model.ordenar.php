@@ -1,24 +1,30 @@
-<?php 
+<?php
 
-$articulos = generar_tabla();
-$categorias = generar_categorias();
+/*
 
+    Modelo: model.ordenar.php
+    Descripcion: muestra los artículos  a partir de un  criterio de ordenación
+
+    Método GET:
+                - critero: descripcion, modelo,  categoria, unidades, precio
+*/
+
+# cargamos la tabla
+$categorias = ArrayArticulos::getCategorias();
+$marcas = ArrayArticulos::getMarcas();
+
+# Creamos un objeto de la clase ArrayArticulos
+$articulos = new ArrayArticulos();
+
+# Cargo los datos
+$articulos->getDatos();
+
+# Cargo el criterio de ordenación
 $criterio = $_GET['criterio'];
 
 
-//Cargo en un array todos los valores dek criterio de ordenacion
-$aux = array_column($articulos, $criterio);
 
-// Validar criterio
-if (!in_array($criterio, array_keys($articulos[0]))) {
-    echo "No se ha encontrado el criterio";
-    exit();
-
-    
-}
-
-//Funcion array multisort
-array_multisort($aux, SORT_ASC, $articulos);
-
+# Ordenar tabla articulos
+$articulos = ordenar($articulos, $criterio);
 
 ?>

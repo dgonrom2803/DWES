@@ -1,17 +1,21 @@
-<?php 
+<?php
+
     /*
-        Controlador index.php
-        Muestra los detalles de lso articulos
+
+        Controlador: index.php
+        Descripción: muestra los detalles de los alumnos
+
     */
 
-    #clases
-    include("class/class.conexion.php");
-    include("class/class.fp.php");
+    # Clases
+    include 'class/class.conexion.php';
+    include 'class/class.fp.php';
+    include 'class/class.alumno.php';
 
-    #model
-    include("models/model.index.php");
+    # Model
+    include 'models/model.index.php';
 
-    #views
-    include("views/view.index.php");
+    # Vista
+    include 'views/view.index.php';
 
 ?>

@@ -3,7 +3,7 @@
 
 <head>
     <?php include 'views/layouts/head.html' ?>
-    <title>Proyecto 5.1 - Gestión Alumnos</title>
+    <title>Home - Proyecto 5.2 - Gestión Alumnos PDO</title>
 </head>
 
 <body>
@@ -13,13 +13,13 @@
         <!-- cabecera documento -->
         <?php include 'views/partials/header.php' ?>
 
-        <legend>Tabla Artículos</legend>
+        <legend>Tabla Alumnos</legend>
 
         <!-- Menu Principal -->
         <?php include 'views/partials/menu_prin.php' ?>
 
         <!-- Notificación -->
-        <?php include 'views/partials/notificacion.php' ?>
+        <?php include 'views/partials/notify.php' ?>
 
         <!-- Muestra datos de la tabla -->
         <table class="table">
@@ -47,27 +47,27 @@
                         <!-- Formatos distintos para cada  columna -->
 
                         <!-- Detalles de alumnos -->
-                        <td><?= $alumno['id'] ?></td>
-                        <td><?= $alumno['alumno'] ?></td>
-                        <td class="text-end"><?= $alumno['edad'] ?></td>
-                        <td><?= $alumno['dni'] ?></td>
-                        <td><?= $alumno['poblacion'] ?></td>
-                        <td><?= $alumno['email'] ?></td>
-                        <td><?= $alumno['telefono'] ?></td>
-                        <td><?= $alumno['curso'] ?></td>
+                        <td><?= $alumno->id ?></td>
+                        <td><?= $alumno->alumno ?></td>
+                        <td class="text-end"><?= $alumno->edad ?></td>
+                        <td><?= $alumno->dni ?></td>
+                        <td><?= $alumno->poblacion ?></td>
+                        <td><?= $alumno->email ?></td>
+                        <td><?= $alumno->telefono ?></td>
+                        <td><?= $alumno->curso ?></td>
                        
                         <!-- botones de acción -->
                         <td>
                             <!-- botón  eliminar -->
-                            <a href="eliminar.php?id=<?= $alumno['id'] ?>" title="Eliminar">
+                            <a href="eliminar.php?id=<?= $alumno->id ?>" title="Eliminar">
                             <i class="bi bi-trash-fill"></i></a>
 
                             <!-- botón  editar -->
-                            <a href="editar.php?id=<?= $alumno['id'] ?>" title="Editar">
+                            <a href="editar.php?id=<?= $alumno->id ?>" title="Editar">
                             <i class="bi bi-pencil-square"></i></a>
 
                             <!-- botón  mostrar -->
-                            <a href="mostrar.php?id=<?= $alumno['id']?> ?>" title="Mostrar">
+                            <a href="mostrar.php?id=<?= $alumno->id?> ?>" title="Mostrar">
                             <i class="bi bi-card-text"></i></a>
 
                         </td>
@@ -79,12 +79,15 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="7">Nº Artículos
-                        <?= $alumnos->num_rows ?>
+                    <td colspan="7">Nº Alumnos
+                        <?= $alumnos->rowCount(); ?>
                     </td>
                 </tr>
             </tfoot>
         </table>
+
+        <!-- Cerramos conexión y resultado -->
+        <?php  $alumnos = null; $conexion->cerrar_conexion() ?>
 
 
 

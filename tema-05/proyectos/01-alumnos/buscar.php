@@ -2,19 +2,16 @@
 
     /*
 
-        Controlador: update.php
-        Descripción: actualiza los detalles  de un  artículo
-        
+        Controlador: buscar.php
+        Descripción: filtra la tabla a partir de la expresión de búsqueda
 
     */
 
-    # Librería -> Cargamos las clases
-    include 'class/class.articulo.php';
-    include 'class/class.arrayArticulos.php';
-
+    # Librería
+    include 'libs/crud_funciones.php';
+    
     # Model
-    include 'models/model.update.php';
-
+    include 'models/model.buscar.php';
 
     # Vista
     include 'views/view.index.php';

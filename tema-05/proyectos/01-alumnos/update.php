@@ -8,9 +8,10 @@
 
     */
 
-    # Librería -> Cargamos las clases
-    include 'class/class.articulo.php';
-    include 'class/class.arrayArticulo.php';
+    # Librería
+    include 'class/class.conexion.php';
+    include 'class/class.fp.php';
+    include 'class/class.alumno.php';
 
     # Model
     include 'models/model.update.php';

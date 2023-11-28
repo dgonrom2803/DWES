@@ -1,22 +1,31 @@
 <?php
 
-/*
-Modelo: modelEliminar.php
-Descripción: Elimina un elemento de la tabla
+    /*
 
-Método GET:
-        - id: Identificador del elemento a eliminar
-*/
-$articulos = new ArrayArticulos();
-$articulos->getDatos();
-$categorias = ArrayArticulos::getCategorias();
-$marcas = ArrayArticulos::getMarcas();
+        Modelo: model.eliminar.php
+        Descripcion: elimina un elemento de la  tabla
 
-$id = $_GET['indice'];
+        Método GET:
+                    - indice. del artículo que quiero eliminar
 
-$articulos->delete($id);
+    */
 
-$notificacion = "Articulo eliminado con éxito";
+    # cargamos array marcas y categorías
+    $categorias = ArrayArticulos::getCategorias();
+    $marcas = ArrayArticulos::getMarcas();
 
+    # cargo los artículos
+    $articulos = new ArrayArticulos();
+    $articulos->getDatos();
+
+    # obtengo el  id del  artículo que deseo eliminar
+    $indice = $_GET['indice'];
+
+    # eliminar artículo
+    $articulos->delete($indice);
+
+    # notificación
+    $notificacion = "Artículo eliminado con éxito";
+   
 
 ?>

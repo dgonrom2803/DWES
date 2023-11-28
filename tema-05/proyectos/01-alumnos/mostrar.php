@@ -11,9 +11,9 @@
 include 'class/class.articulo.php';
 include 'class/class.arrayArticulo.php';
 
+
 # Model
 include 'models/model.mostrar.php';
-
 
 # Vista
 include 'views/view.mostrar.php';

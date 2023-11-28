@@ -1,19 +1,22 @@
-<?php 
+<?php
 
-#Controlador: create.php
-#Descripción: mostrar un formulario que permita añadir nuevo libro
+    /*
 
-// Librería
-include 'class/class.arrayArticulo.php';
-include 'class/class.articulo.php';
+        Controlador: create.php
+        Descripción: permite añadir a la tabla alumno de la bbdd fp un nuevo alumno
+        
+    */
+
+    # Librería
+    include 'class/class.conexion.php';
+    include 'class/class.fp.php';
+    include 'class/class.alumno.php';
+
+    # Model
+    include 'models/model.create.php';
 
 
-// Model
-include 'models/model.create.php';
-
-// Cargo la vista
-include "views/view.index.php";
-
-
+    # Vista
+    
 
 ?>

@@ -2,103 +2,111 @@
 <html lang="es">
 
 <head>
-
-    <?php include "views/layouts/head.html" ?>
-
+    <?php include 'views/layouts/head.html' ?>
+    <title>Proyecto 5.1 - Gestión de Alumnos</title>
 </head>
 
 <body>
     <!-- Capa principal -->
     <div class="container">
+
         <!-- cabecera documento -->
-        <?php include "views/partials/header.php" ?>
+        <?php include 'views/partials/header.php' ?>
 
-        <legend>Formulario Nuevo Articulo</legend>
+        <legend>Formulario Editar Alumno</legend>
 
-        <form action="update.php?indice=<?= $idBuscado ?>" method="POST">
+        <!-- Formulario Editar Libro -->
+        <form action="update.php?id=<?= $id ?>" method="POST">
+            <!-- id oculto -->
 
-        <div class="form-floating mb-3">
-                
-                <input type="number" class="form-control" name="id" value="<?=$articulo->getId()?>" readonly>
-                <label class="form-label">id</label>
+            <!-- <label for="titulo" class="form-label">Id</label> -->
+            <input type="hydeen" class="form-control" name="id" value="<?= $alumno->id ?>" hidden>
+
+            <!-- Nombre -->
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" name="nombre" value="<?= $alumno->nombre ?>">
             </div>
-            
-            <!-- descripción -->
-            <div class="form-floating mb-3">
-                
-                <input type="text" class="form-control" name="descripcion" value="<?=$articulo->getDescripcion()?>">
-                <label class="form-label">Descripción</label>
+            <!-- Apellidos -->
+            <div class="mb-3">
+                <label for="apellidos" class="form-label">Apellidos</label>
+                <input type="text" class="form-control" name="apellidos" value="<?= $alumno->apellidos ?>">
+            </div>
+            <!-- Fecha Nacimiento -->
+            <div class="mb-3">
+                <label for="fechaNac" class="form-label">Fecha Nacimiento</label>
+                <input type="date" class="form-control" name="fechaNac" value="<?= $alumno->fechaNac ?>">
+            </div>
+            <!-- Dni -->
+            <div class="mb-3">
+                <label for="dni" class="form-label">Dni</label>
+                <input type="text" class="form-control" name="dni" value="<?= $alumno->dni ?>">
             </div>
 
-            <!-- Modelo -->
-            <div class="form-floating mb-3">
-                
-                <input type="text" class="form-control" name="modelo" value="<?=$articulo->getModelo()?>">
-                <label class="form-label">Modelo</label>
+            <!-- Email -->
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" value="<?= $alumno->email ?>">
             </div>
-
-            <!-- Marca -->
-            <div class="form-floating mb-3">
-                
-                <select class="form-select" aria-label="Default select example" name="marca">
-                    <?php foreach($marcas as $key => $marca): ?>
-                        <option value="<?=$key?>"
-                        <?=($articulo->getMarca() == $key)?'selected':null ?>
-                        >
-                        <?=$marca?></option>
+            <!-- Telefono -->
+            <div class="mb-3">
+                <label for="telefono" class="form-label">Teléfono</label>
+                <input type="tel" class="form-control" name="telefono" value="<?= $alumno->telefono ?>">
+            </div>
+            <!-- Dirección -->
+            <div class="mb-3">
+                <label for="direccion" class="form-label">Dirección</label>
+                <input type="text" class="form-control" name="direccion" value="<?= $alumno->direccion ?>">
+            </div>
+            <!-- Población -->
+            <div class="mb-3">
+                <label for="poblacion" class="form-label">Población</label>
+                <input type="text" class="form-control" name="poblacion" value="<?= $alumno->poblacion ?>">
+            </div>
+            <!-- Provincia -->
+            <div class="mb-3">
+                <label for="provincia" class="form-label">Provincia</label>
+                <input type="text" class="form-control" name="provincia" value="<?= $alumno->provincia ?>">
+            </div>
+            <!-- Nacionalidad -->
+            <div class="mb-3">
+                <label for="nacionalidad" class="form-label">Nacionalidad</label>
+                <input type="text" class="form-control" name="nacionalidad" value="<?= $alumno->nacionalidad ?>">
+            </div>
+            <!-- Curso Select -->
+            <div class="mb-3">
+                <label for="id_curso" class="form-label">Curso</label>
+                <select class="form-select" aria-label="Default select example" name="id_curso">
+                    <option selected disabled>Seleccione Curso</option>
+                    <?php foreach ($cursos as $data) : ?>
+                        <option value="<?= $data['id'] ?>" <?= ($data['id'] == $alumno->id_curso)? 'selected': null ?>>
+                            <?= $data['curso'] ?>
+                        </option>
                     <?php endforeach; ?>
                 </select>
-                <label class="form-label">Marca</label>
             </div>
 
-            <!-- Unidades -->
-            <div class="form-floating mb-3">
-                
-                <input type="number" class="form-control" name="unidades" value="<?=$articulo->getUnidades()?>">
-                <label class="form-label">Unidades</label>
-            </div>
-
-            <!-- Precio -->
-            <div class="form-floating mb-3">
-                
-                <input type="number" class="form-control" name="precio" step="0.01" value="<?=$articulo->getPrecio()?>">
-                <label class="form-label">Precio (€)</label>
-            </div>
-
-            <!-- Categorías -->
-            <div class="mb-3">
-                <label class="form-floating mb-3">Seleccionar Categorías</label>
-                <div class="form-control">
-                    <?php foreach ($categorias as $indice => $categoria): ?>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="<?= $indice ?>" name="categorias[]"
-                            <?=(in_array($indice,$articulo->getCategorias()) ? 'checked': null)?>
-                            >
-                            <label class="form-check-label" for="">
-                                <?= $categoria ?>
-                                <label>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-
+            <!-- botones de acción -->
             <a class="btn btn-secondary" href="index.php" role="button">Cancelar</a>
+            <button type="reset" class="btn btn-danger">Restablecer</button>
             <button type="submit" class="btn btn-primary">Actualizar</button>
+
         </form>
+
         <br>
         <br>
         <br>
+
+
+
+
+        <!-- Pié del documento -->
+        <?php include 'views/partials/footer.html' ?>
 
     </div>
 
-    <?php
-    'views/partials/footer.html';
-    ?>
-    <!-- javascript bootstrap 512 -->
-    <?php
-    include "views/layouts/javascript.html";
-    ?>
-
+    <!-- javascript bootstrap 532 -->
+    <?php include 'views/layouts/javascript.html' ?>
 </body>
 
 </html>

@@ -3,19 +3,19 @@
     /*
 
         Controlador: editar.php
-        Descripción: Controlador Editar
-
+        Descripción: mostrar un formulario con los detalles editables
+        del alumno seleccionado
     */
 
+    # Classes
+    include 'class/class.conexion.php';
+    include 'class/class.fp.php';
 
-    // Clases
-    include("class/class.articulo.php");
-    include("class/class.arrayArticulo.php");
-
-    // Model
+    # Model
     include 'models/model.editar.php';
 
-    // Vista
+
+    # Vista
     include 'views/view.editar.php';
 
 ?>

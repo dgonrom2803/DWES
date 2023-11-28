@@ -1,13 +1,12 @@
-
 <?php
 
     /*
 
         Controlador: nuevo.php
-        Descripción: mostrar un formulario que permita añadir nuevo libro
+        Descripción: mostrar un formulario que permita añadir nuevo alumno
     */
 
-    # Class
+    # Librería
     include 'class/class.conexion.php';
     include 'class/class.fp.php';
 

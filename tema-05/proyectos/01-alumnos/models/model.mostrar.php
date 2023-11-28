@@ -1,26 +1,29 @@
 <?php
-    /*
-        Modelo: modelEditar.php
-        Descripción: editar los detalles de un artículo
 
-        Método GET:
-            - id del articulo que quiero editar
-    */
-    setlocale(LC_MONETARY,"es_ES"); // Indicamos
+/*
 
-    # Cargamos los datos a partir de los métodos estáticos de la clase
-    $categorias = ArrayArticulos::getCategorias(); // getCategorias -> Método estático
-    $marcas = ArrayArticulos::getMarcas(); // getMarcas -> Método estático
+    Modelo: model.mostrar.php
+    Descripcion: muestra los detalles de un artículo sin edición
 
-    # Cargamos los datos
-    $articulos = new ArrayArticulos();
+    Método GET:
+                - indice del artículo
+*/
 
-    $articulos->getDatos();
+# cargamos la tabla
+$categorias = ArrayArticulos::getCategorias();
+$marcas = ArrayArticulos::getMarcas();
 
-    # Debemos buscar en la tabla el id del artículo a editar
-    $idMostrar = $_GET['indice'];
+# Creamos un objeto de la clase ArrayArticulos
+$articulos = new ArrayArticulos();
 
-    # Usamos la funcion buscar de ArrayArticulos
-    $articulo = $articulos->buscar($idMostrar);
+# Cargo los datos
+$articulos->getDatos();
+
+# obtener indice del artículo que voy a editar
+$indice = $_GET['indice'];
+
+# cargo los detalles del artículo a partir del índice
+# en objeto de la clase Articulo
+$articulo = $articulos->read($indice);
 
 ?>

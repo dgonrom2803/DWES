@@ -1,34 +1,63 @@
 <?php
-$categorias = ArrayArticulos::getCategorias();
-$marcas = ArrayArticulos::getMarcas();
 
-$articulos = new ArrayArticulos();
-$articulos->getDatos();
+    /*
 
+        Modelo: model.create.php
+        Descripcion: añade un nuevo  alumno a la tabla alumnos de la bbdd fp
 
-$id = $_POST['id'];
-$descripcion = $_POST['descripcion'];
-$modelo = $_POST['modelo'];
-$marca = $_POST['marca'];
-$categoria = $_POST['categorias'];
-$unidades = $_POST['unidades'];
-$precio = $_POST['precio'];
+        Método POST:
+                    - id 
+                    - nombre
+                    - apellidos
+                    - email
+                    - telefono
+                    - direccion
+                    - poblacion
+                    - provincia
+                    - nacionalidad
+                    - dni
+                    - fechaNac
+                    - id_curso
 
+    */
 
-$articulo = new Articulo(
-    $id, 
-    $descripcion, 
-    $modelo, 
-    $marca,
-    $categoria,
-    $unidades,
-    $precio);
+    # Cargamos en varibales detalles del  formulario
+    $nombre         = $_POST['nombre'];
+    $apellidos      = $_POST['apellidos'];
+    $email          = $_POST['email'];
+    $telefono       = $_POST['telefono'];
+    $direccion      = $_POST['direccion'];
+    $poblacion      = $_POST['poblacion'];
+    $provincia      = $_POST['provincia'];
+    $nacionalidad   = $_POST['nacionalidad'];
+    $dni            = $_POST['dni'];
+    $fechaNac       = $_POST['fechaNac'];
+    $id_curso       = $_POST['id_curso'];
 
-#    añadimos el articulo
-$articulos->create($articulo);
+    # Creamos un  objeto de la clase Alumno
+    $alumno = new Alumno();
 
-# genero notificación
-$notificacion = "Articulo creado con éxito";
+    # Asignamos valores a las propiedades
+    $alumno->id = null;
+    $alumno->nombre = $nombre;
+    $alumno->apellidos = $apellidos;
+    $alumno->email = $email;
+    $alumno->telefono = $telefono;
+    $alumno->direccion = $direccion;
+    $alumno->poblacion = $poblacion;
+    $alumno->provincia = $provincia;
+    $alumno->nacionalidad = $nacionalidad;
+    $alumno->dni = $dni;
+    $alumno->fechaNac = $fechaNac;
+    $alumno->id_curso = $id_curso;
 
+    # Validación
 
+    # Insertar registro
+    $fp = new Fp();
+    $fp->insertAlumno($alumno);
+
+    // No debo cargar la vista view.index.php
+    // Tengo que cargar el controlador index.php
+    header('location: index.php');
 ?>

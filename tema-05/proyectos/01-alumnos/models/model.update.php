@@ -1,51 +1,72 @@
 <?php
-    /*
-        Modelo: modelUpdate.php
-        Descripción: actualiza los detalle de un articulo
 
-        Método POST 
-            - descripcion
-            - modelo
-            - Marca
-            - categorias (valor númerico)
-            - unidades
-            - precio
-        
-        Método GET
-            - id
-    */
-// Carga de datos
-$categorias = ArrayArticulos::getCategorias();
-$marcas = ArrayArticulos::getMarcas();
-$articulos = new ArrayArticulos();
-$articulos->getDatos();
+/*
 
-$idBuscado = $_GET['indice'];
+    Modelo: model.update.php
+    Descripcion: actualiza los detalles de un  artículo
 
-// Recogemos los datos del formulario
+    Método POST:
+                    - id 
+                    - nombre
+                    - apellidos
+                    - email
+                    - telefono
+                    - direccion
+                    - poblacion
+                    - provincia
+                    - nacionalidad
+                    - dni
+                    - fechaNac
+                    - id_curso
+    
 
-$id = $_POST['id'];
-$descripcion = $_POST['descripcion'];
-$modelo = $_POST['modelo'];
-$marca = $_POST['marca'];
-$categoriasArt = $_POST['categorias'];
-$unidades = $_POST['unidades'];
-$precio = $_POST['precio'];
+    Método GET:
+                - id -> id  del alummno que quiero editar
 
-# creo un objeto de la clase articulo
-$articulo = new Articulo(
-    $id,
-    $descripcion,
-    $modelo,
-    $marca,
-    $categoriasArt,
-    $unidades,
-    $precio
-);
+*/
 
-// Añadimos el artículo usando la funcion create de ArrayArticulos
-$articulos->update($articulo, $idBuscado);
+# obtener id del alumno
+$id = $_GET['id'];
 
-# Generamos una notificación
-$notificacion = 'Articulo modificado con éxito';
+# Cargamos en varibales detalles del  formulario
+$nombre         = $_POST['nombre'];
+$apellidos      = $_POST['apellidos'];
+$email          = $_POST['email'];
+$telefono       = $_POST['telefono'];
+$direccion      = $_POST['direccion'];
+$poblacion      = $_POST['poblacion'];
+$provincia      = $_POST['provincia'];
+$nacionalidad   = $_POST['nacionalidad'];
+$dni            = $_POST['dni'];
+$fechaNac       = $_POST['fechaNac'];
+$id_curso       = $_POST['id_curso'];
+
+# Creamos un  objeto de la clase Alumno
+$alumno = new Alumno();
+
+# Asignamos valores a las propiedades
+$alumno->id = null;
+$alumno->nombre = $nombre;
+$alumno->apellidos = $apellidos;
+$alumno->email = $email;
+$alumno->telefono = $telefono;
+$alumno->direccion = $direccion;
+$alumno->poblacion = $poblacion;
+$alumno->provincia = $provincia;
+$alumno->nacionalidad = $nacionalidad;
+$alumno->dni = $dni;
+$alumno->fechaNac = $fechaNac;
+$alumno->id_curso = $id_curso;
+
+# Validación
+
+# actualizamos datos
+
+$fp = new Fp();
+$fp->updateAlumno($alumno, $id);
+
+// No debo cargar la vista view.index.php
+// Tengo que cargar el controlador index.php
+header('location: index.php');
+
 ?>
