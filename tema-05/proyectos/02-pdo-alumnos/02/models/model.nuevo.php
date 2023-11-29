@@ -2,7 +2,7 @@
 
     /*
 
-        Modelo Principal index
+        Modelo Principal nuevo
 
     */
 
@@ -10,8 +10,7 @@
     // Conectando a la base de datos FP
     $conexion = new Alumnos();
 
-    # Extraigo  los valores de los alumnos
-    //objeto clase pdostatement
-    $alumnos = $conexion->getAlumnos();
+    # Extraigo  los cursos para generar el select
+    $cursos = $conexion->getCursos();
 
 ?>
