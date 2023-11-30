@@ -24,7 +24,6 @@ INSERT INTO cursos VALUES
     (NULL, "Primero de Asistencia a la Dirección", "Asistencia a la Dirección", "1AD", "1"),
     (NULL, "Segundo de Asistencia a la Dirección", "Asistencia a la Dirección", "2AD", "2")
 ;
-
 DROP TABLE IF EXISTS alumnos;
 CREATE TABLE alumnos (
     id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
