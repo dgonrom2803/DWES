@@ -18,6 +18,5 @@
     include('models/model.update.php');
 
     # Cargo vista
-    include('views/view.index.php');
-
+    header('location: index.php');
 ?>
