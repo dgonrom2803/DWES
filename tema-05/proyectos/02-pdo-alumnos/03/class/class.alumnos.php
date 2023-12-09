@@ -167,23 +167,23 @@ class Alumnos extends Conexion
 
             # Ejecuto mysqli_stmt e inserto registro
             $pdostmt->execute();
-    
+
             # Libero memoria
             $pdostmt = null;
 
             #Cerrar conexion
             $this->pdo = null;
 
-        
-    }catch (PDOException $e) {
 
-        include('views/partials/errorDB.php');
-        exit();
+        } catch (PDOException $e) {
 
+            include('views/partials/errorDB.php');
+            exit();
+
+        }
     }
-}
 
-public function read_alumno($id)
+    public function read_alumno($id)
     {
         try {
 
@@ -228,7 +228,7 @@ public function read_alumno($id)
 
             $pdostmt = $this->pdo->prepare($sql);
 
-       
+
             $pdostmt->bindParam(':nombre', $alumno->nombre, PDO::PARAM_STR, 30);
             $pdostmt->bindParam(':apellidos', $alumno->apellidos, PDO::PARAM_STR, 50);
             $pdostmt->bindParam(':email', $alumno->email, PDO::PARAM_STR, 50);
@@ -240,15 +240,15 @@ public function read_alumno($id)
             $pdostmt->bindParam(':dni', $alumno->dni, PDO::PARAM_STR, 9);
             $pdostmt->bindParam(':fechaNac', $alumno->fechaNac);
             $pdostmt->bindParam(':id_curso', $alumno->id_curso, PDO::PARAM_INT);
-            $pdostmt->bindParam(':id', $id, PDO::PARAM_INT); 
+            $pdostmt->bindParam(':id', $id, PDO::PARAM_INT);
 
-            
+
             $pdostmt->execute();
 
-            
+
             $pdostmt = null;
 
-            
+
             $this->pdo = null;
         } catch (PDOException $e) {
             include('views/partials/errorDB.php');
@@ -256,6 +256,111 @@ public function read_alumno($id)
         }
     }
 
+    public function deleteAlumno($indice)
+    {
+        try {
+            $sql = " DELETE FROM fp.alumnos WHERE alumnos.id = :id";
+
+            // Creamos una sentencia preparada
+            $pdostmt = $this->pdo->prepare($sql);
+            // Vinculamos el parametro a eliminar
+            $pdostmt->bindParam(":id", $indice, PDO::PARAM_INT);
+
+            // Ejecutamos la sentencia preparada
+            $pdostmt->execute();
+
+            // Liberamos memoria
+            $pdostmt = null;
+            // Cerramos conexión
+            $this->pdo = null;
+        } catch (PDOException $e) {
+            include('views/partials/errorDB.php');
+            exit();
+        }
+
+    }
+    public function order($criterio)
+    {
+        try {
+            $sql = "SELECT 
+    alumnos.id,
+    CONCAT_WS(', ', alumnos.apellidos, alumnos.nombre) AS nombre,
+    alumnos.email,
+    alumnos.telefono,
+    alumnos.poblacion,
+    alumnos.dni,
+    TIMESTAMPDIFF(YEAR,
+        alumnos.fechaNac,
+        NOW()) AS edad,
+    cursos.nombreCorto AS curso
+FROM
+    fp.alumnos
+        INNER JOIN
+    cursos ON alumnos.id_curso = cursos.id
+ORDER BY $criterio";
+
+            // Prepare->objeto clase pdostatement
+            $pdostmt = $this->pdo->prepare($sql);
+
+            // Establecemos el tipo de fetch
+            $pdostmt->setFetchMode(PDO::FETCH_OBJ);
+            // Ejecutamos la consulta y obtenemos los resultados
+            $pdostmt->execute();
+            // Devolvemos el objeto clase pdostatement
+            return $pdostmt;
+
+        } catch (PDOException $e) {
+            include '../views/partials/errorDB.php';
+            exit();
+        }
+    }
+
+    /*
+        filter($expresion)
+    */
+    public function filter($expresion)
+    {
+        try {
+            $sql = "SELECT 
+    alumnos.id,
+    CONCAT_WS(', ', alumnos.apellidos, alumnos.nombre) AS nombre,
+    alumnos.email,
+    alumnos.telefono,
+    alumnos.poblacion,
+    alumnos.dni,
+    TIMESTAMPDIFF(YEAR,
+        alumnos.fechaNac,
+        NOW()) AS edad,
+    cursos.nombreCorto AS curso
+FROM
+    fp.alumnos
+        INNER JOIN
+    cursos ON alumnos.id_curso = cursos.id
+    WHERE CONCAT_WS(' ', alumnos.id, alumnos.nombre,
+     alumnos.apellidos, alumnos.email, alumnos.telefono, 
+     alumnos.poblacion, alumnos.dni, TIMESTAMPDIFF(YEAR, alumnos.fechaNac, NOW()), cursos.nombreCorto) LIKE :expresion";
+
+            // Prepare->objeto clase pdostatement
+            $pdostmt = $this->pdo->prepare($sql);
+
+            // Manejamos la expresion
+            $expresionModifi = "%$expresion%";
+
+            // Vinculamos el valor
+            $pdostmt->bindParam(':expresion', $expresionModifi);
+
+            // Establecemos el tipo de fetch
+            $pdostmt->setFetchMode(PDO::FETCH_OBJ);
+            // Ejecutamos la consulta y obtenemos los resultados
+            $pdostmt->execute();
+            // Devolvemos el objeto clase pdostatement
+            return $pdostmt;
+
+        } catch (PDOException $e) {
+            include 'views/partials/errorDB.php';
+            exit();
+        }
+    }
 }
 
 ?>
