@@ -9,11 +9,11 @@
     <!-- Capa principal -->
     <div class="container">
         <!-- Cabecera -->
-        <?php include 'partials/header.html' ?>
+        <?php include 'partials/header.php' ?>
         <legend>Mostrar Alumno</legend>
 
         <!-- Añadimos el menú -->
-        <?php include 'partials/menu.php' ?>
+        <?php include 'partials/menu_prin.php' ?>
 
        
          <!-- Formulario Mostrar Alumno -->

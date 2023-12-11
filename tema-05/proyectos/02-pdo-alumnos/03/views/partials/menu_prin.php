@@ -19,15 +19,15 @@
                         Ordenar
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="ordenar.php?criterio=descripcion">Descripcion</a></li>
-                        <li><a class="dropdown-item" href="ordenar.php?criterio=modelo">Modelo</a></li>
-                        <li><a class="dropdown-item" href="ordenar.php?criterio=categoria">Categoria</a></li>
-                        <li><a class="dropdown-item" href="ordenar.php?criterio=unidades">Stock</a></li>
-                        <li><a class="dropdown-item" href="ordenar.php?criterio=precio">Precio</a></li>
+                        <li><a class="dropdown-item" href="ordenar.php?criterio=alumno">Nombre</a></li>
+                        <li><a class="dropdown-item" href="ordenar.php?criterio=edad">Edad</a></li>
+                        <li><a class="dropdown-item" href="ordenar.php?criterio=dni">DNI</a></li>
+                        <li><a class="dropdown-item" href="ordenar.php?criterio=poblacion">Población</a></li>
+                        <li><a class="dropdown-item" href="ordenar.php?criterio=email">Email</a></li>
                     </ul>
                 </li>
             </ul>
-            <form class="d-flex" role="search" method="GET" action="buscar.php">
+            <form class="d-flex" role="search" method="GET" action="filtrar.php">
                 <input class="form-control me-2" type="search"  aria-label="Search" name="expresion">
                 <button class="btn btn-outline-secondary" type="submit">Buscar</button>
             </form>

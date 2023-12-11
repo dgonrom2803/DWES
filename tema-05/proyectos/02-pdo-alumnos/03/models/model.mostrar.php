@@ -22,7 +22,7 @@
     // Al ser objetos
     foreach($cursos as $curso){
         if ($curso->id === $alumno->id_curso){
-            $alumnoCurso = $curso->nombre;
+            $alumnoCurso = $curso->curso;
             break;
         }
     

@@ -284,7 +284,7 @@ class Alumnos extends Conexion
         try {
             $sql = "SELECT 
     alumnos.id,
-    CONCAT_WS(', ', alumnos.apellidos, alumnos.nombre) AS nombre,
+    CONCAT_WS(', ', alumnos.apellidos, alumnos.nombre) AS alumno,
     alumnos.email,
     alumnos.telefono,
     alumnos.poblacion,
@@ -323,7 +323,7 @@ ORDER BY $criterio";
         try {
             $sql = "SELECT 
     alumnos.id,
-    CONCAT_WS(', ', alumnos.apellidos, alumnos.nombre) AS nombre,
+    CONCAT_WS(', ', alumnos.apellidos, alumnos.nombre) AS alumno,
     alumnos.email,
     alumnos.telefono,
     alumnos.poblacion,
