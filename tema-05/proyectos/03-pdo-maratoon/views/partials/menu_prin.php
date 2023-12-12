@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-        <a class="navbar-brand" href="index.php">Alumnos</a>
+        <a class="navbar-brand" href="index.php">Corredores</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -19,14 +19,11 @@
                         Ordenar
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="ordenar.php?criterio=2">Descripcion</a></li>
-                        <li><a class="dropdown-item" href="ordenar.php?criterio=3">Modelo</a></li>
-                        <li><a class="dropdown-item" href="ordenar.php?criterio=4">Categoria</a></li>
-                        <li><a class="dropdown-item" href="ordenar.php?criterio=5">Stock</a></li>
-                        <li><a class="dropdown-item" href="ordenar.php?criterio=6">Precio</a></li>
-                        <li><a class="dropdown-item" href="ordenar.php?criterio=7">Precio</a></li>
-                        <li><a class="dropdown-item" href="ordenar.php?criterio=8">Precio</a></li>
-                        
+                    <li><a class="dropdown-item" href="ordenar.php?criterio=edad">Edad</a></li>
+                        <li><a class="dropdown-item" href="ordenar.php?criterio=corredor">Nombre</a></li>
+                        <li><a class="dropdown-item" href="ordenar.php?criterio=categorias">Categoría</a></li>
+                        <li><a class="dropdown-item" href="ordenar.php?criterio=club">Club</a></li>
+                        <li><a class="dropdown-item" href="ordenar.php?criterio=ciudad">Ciudad</a></li>
                     </ul>
                 </li>
             </ul>
