@@ -11,13 +11,13 @@
 
     # Cargamos clases en orden
     include('class/class.conexion.php');
-    // include('class/class.corredores.php');
+    include('class/class.corredor.php');
     include('class/class.corredores.php');
 
     # Cargo modelo
-    include('models/model.index.php');
+    include('models/model.nuevo.php');
 
     # Cargo vista
-    include('views/view.index.php');
+    include('views/view.nuevo.php');
 
 ?>

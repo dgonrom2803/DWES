@@ -1,5 +1,8 @@
--- SCRIPT SQL PARA LA CREACIÓN DE LA
--- BASE DE DATOS MARATOON
+-- Base de datos MARATOON
+-- Módulo: Base de Datos
+-- Curso: 2º DAW
+-- Autor: Juan Carlos Moreno
+-- Descripción: Posibilita la ejecución de los ejemplos incluidos en los apuntes.
 --
 DROP DATABASE IF EXISTS maratoon;
 CREATE DATABASE maratoon;
@@ -10,20 +13,20 @@ USE maratoon;
 DROP TABLE IF EXISTS Categorias;
 CREATE TABLE IF NOT EXISTS Categorias(
  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
- Nombrecorto CHAR(3) UNIQUE,
- Nombre VARCHAR(20),
- Descripcion VARCHAR(30)
+ nombrecorto CHAR(3) UNIQUE,
+ nombre VARCHAR(20),
+ descripcion VARCHAR(30)
 );
 --
 -- Tabla Carreras
-
+--
 DROP TABLE IF EXISTS Carreras;
 CREATE TABLE IF NOT EXISTS Carreras(
  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
- Nombre VARCHAR(30),
- Ciudad VARCHAR(20),
- Distancia INT UNSIGNED,
- MesCelebracion TINYINT UNSIGNED
+ nombre VARCHAR(30),
+ ciudad VARCHAR(20),
+ distancia INT UNSIGNED,
+ mesCelebracion TINYINT UNSIGNED
 );
 --
 -- Tabla de Club
@@ -31,11 +34,11 @@ CREATE TABLE IF NOT EXISTS Carreras(
 DROP TABLE IF EXISTS Clubs;
 CREATE TABLE IF NOT EXISTS Clubs(
  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
- NombreCorto CHAR(3) UNIQUE,
- Nombre VARCHAR(30),
- Ciudad VARCHAR(20),
- FecFundacion DATE,
- NumSocios INT UNSIGNED
+ nombreCorto CHAR(3) UNIQUE,
+ nombre VARCHAR(30),
+ ciudad VARCHAR(20),
+ fecFundacion DATE,
+ numSocios INT UNSIGNED
 );
 --
 -- Tabla Corredores
@@ -43,19 +46,22 @@ CREATE TABLE IF NOT EXISTS Clubs(
 DROP TABLE IF EXISTS Corredores;
 CREATE TABLE IF NOT EXISTS Corredores(
  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
- Nombre VARCHAR(20),
- Apellidos VARCHAR(45),
- Ciudad VARCHAR(30),
- FechaNacimiento DATE NOT NULL,
- Sexo ENUM(' ', 'H', 'M') DEFAULT ' ',
- Edad INT(2) UNSIGNED,
- Categoria_id INT UNSIGNED,
- Club_id INT UNSIGNED,
- FOREIGN KEY (categoria_id)REFERENCES Categorias (id)
+ nombre VARCHAR(20),
+ apellidos VARCHAR(45),
+ ciudad VARCHAR(30),
+ fechaNacimiento DATE NOT NULL,
+ sexo ENUM(' ', 'H', 'M') DEFAULT ' ',
+ email varchar(45) unique,
+ dni char(9) unique,
+ edad INT(2) UNSIGNED,
+ id_categoria INT UNSIGNED,
+ id_club INT UNSIGNED,
+ FOREIGN KEY (id_categoria) REFERENCES Categorias (id)
  ON DELETE RESTRICT ON UPDATE CASCADE,
- FOREIGN KEY (club_id)REFERENCES Clubs (id)
-ON DELETE RESTRICT ON UPDATE CASCADE
+ FOREIGN KEY (id_club) REFERENCES Clubs (id)
+ ON DELETE RESTRICT ON UPDATE CASCADE
 );
+
 -- Continuación script anterior
 --
 -- Tabla Registros
@@ -64,16 +70,16 @@ ON DELETE RESTRICT ON UPDATE CASCADE
 -- en la que participa
 DROP TABLE IF EXISTS Registros;
 CREATE TABLE Registros(
-	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	carrera_id INT UNSIGNED,
-	corredor_id INT UNSIGNED,
-	Salida TIMESTAMP(6),
-	Llegada DATETIME(6),
-	TiempoInvertido TIME(6),
-	 FOREIGN KEY (carrera_id)REFERENCES Carreras (id)
-	ON DELETE RESTRICT ON UPDATE CASCADE,
-	 FOREIGN KEY (corredor_id)REFERENCES Corredores (id)
-	ON DELETE RESTRICT ON UPDATE CASCADE
+ id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+ id_carrera INT UNSIGNED,
+ id_corredor INT UNSIGNED,
+ salida DATETIME,
+ llegada DATETIME,
+ tiempoInvertido TIME,
+ FOREIGN KEY (id_carrera) REFERENCES Carreras (id)
+ ON DELETE RESTRICT ON UPDATE CASCADE,
+ FOREIGN KEY (id_corredor) REFERENCES Corredores (id)
+ ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- Tabla Categoria
@@ -102,61 +108,62 @@ INSERT INTO Clubs VALUES
 (4, 'ADJ', 'Asociación Deportiva de Arcos', 'Arcos de la Fra.', '1970-4-11', 300),
 (5, 'CAF', 'Club Atletismo Fronter', 'Jerez de la Fra.', '1975-4-11', 220);
 
+--
 -- Tabla Corredor
 INSERT INTO Corredores VALUES
-(1,'Juan','García Pérez','Ubrique','1965-7-31', 'H', NULL, NULL, 1),
-(2,'Juan José','Pérez Morales','Ubrique','1945-8-30', 'H', NULL, NULL, 1),
-(3,'Eva','Rubiales Alva','Ubrique','1980-8-25', 'M', NULL, NULL, 1),
-(4,'Josefa','Rios Pérez','Villamartín','1990-10-15', 'M', NULL, NULL, 2),
-(5,'Pedro','Ortega Ríos','Villamartín','1994-5-14', 'H', NULL, NULL, 2),
-(6,'Francisco','Morales Almeida','Villamartín','1970-2-1', 'H', NULL, NULL, 2),
-(7,'Macarena','Fernández Pérez','Villamartín','1980-5-3', 'M', NULL, NULL, 2),
-(8,'Jesús','Romero Reguera','Villamartín','1970-6-5', 'H', NULL, NULL, 2),
-(9,'Pedro','García Ramírez','Ubrique','1967-7-31', 'H', NULL, NULL, 1),
-(10,'María','Pérez Moreno','Ubrique','1975-8-30', 'M', NULL, NULL, 1),
-(11,'Almudena','Romero Alva','Arcos','1986-8-25', 'M', NULL, NULL, 4),
-(12,'Francisco','Pérez Amor','Arcos','1992-10-15', 'H', NULL, NULL, 4),
-(13,'Juan','Rodríguez Ríos','Ubrique','1978-5-14', 'H', NULL, NULL, 1),
-(14,'Cristina','García Almeida','Villamartín','1978-2-1', 'M', NULL, NULL, 2),
-(15,'Romira','Jiménez Pérez','Arcos','1984-5-3', 'M', NULL, NULL, 4),
-(16,'José','Rincón Pérez','Villamartín','1960-6-5', 'H', NULL, NULL, 2);
+(1,'Juan','García Pérez','Ubrique','1965-7-31', 'H', 'juan@gmail.com', '11111111A', NULL, NULL, 1),
+(2,'Juan José','Pérez Morales','Ubrique','1945-8-30', 'H', 'juanjose@gmail.com', '21111111A', NULL, NULL, 1),
+(3,'Eva','Rubiales Alva','Ubrique','1980-8-25', 'M', 'eva@gmail.com', '31111111A', NULL, NULL, 1),
+(4,'Josefa','Rios Pérez','Villamartín','1990-10-15', 'M', 'josefa@gmail.com', '41111111A', NULL, NULL, 2),
+(5,'Pedro','Ortega Ríos','Villamartín','1994-5-14', 'H', 'pedro@gmail.com', '51111111A', NULL, NULL, 2),
+(6,'Francisco','Morales Almeida','Villamartín','1970-2-1', 'H', 'francisco@gmail.com', '61111111A', NULL, NULL, 2),
+(7,'Macarena','Fernández Pérez','Villamartín','1980-5-3', 'M', 'macarena@gmail.com', '71111111A', NULL, NULL, 2),
+(8,'Jesús','Romero Reguera','Villamartín','1970-6-5', 'H', 'jesus@gmail.com', '81111111A', NULL, NULL, 2),
+(9,'Pedro','García Ramírez','Ubrique','1967-7-31', 'H', 'pedrito@gmail.com', '91111111A', NULL, NULL, 1),
+(10,'María','Pérez Moreno','Ubrique','1975-8-30', 'M', 'maria@gmail.com', '10111111A', NULL, NULL, 1),
+(11,'Almudena','Romero Alva','Arcos','1986-8-25', 'M', 'almudena@gmail.com', '11111111B', NULL, NULL, 4),
+(12,'Francisco','Pérez Amor','Arcos','1992-10-15', 'H', 'currito@gmail.com', '12111111A', NULL, NULL, 4),
+(13,'Juan','Rodríguez Ríos','Ubrique','1978-5-14', 'H', 'juanro@gmail.com', '13111111A', NULL, NULL, 1),
+(14,'Cristina','García Almeida','Villamartín','1978-2-1', 'M', 'cristina@gmail.com', '14111111A', NULL, NULL, 2),
+(15,'Romira','Jiménez Pérez','Arcos','1984-5-3', 'M', 'romira@gmail.com', '15111111A', NULL, NULL, 4),
+(16,'José','Rincón Pérez','Villamartín','1960-6-5', 'H', 'joselito@gmail.com', '16111111A', NULL, NULL, 2);
 --
 -- Tabla Registro
 INSERT INTO registros VALUES
-(1, 1, 1,'2012-4-11 10:00:00.000000','2012-4-11 10:45:10.000012', NULL),
-(2, 1, 2,'2012-4-11 10:00:00.000000','2012-4-11 10:35:10.00067', NULL),
-(3, 1, 3,'2012-4-11 10:00:00.000000','2012-4-11 10:37:10.00148', NULL),
-(4, 1, 4,'2012-4-11 10:00:00.000000','2012-4-11 10:36:20.001546', NULL),
-(5, 1, 5,'2012-4-11 10:00:00.000000','2012-4-11 10:35:40.000333', NULL),
-(6, 1, 6,'2012-4-11 10:00:00.000000','2012-4-11 10:40:01.000164', NULL),
-(7, 1, 7,'2012-4-11 10:00:00.000000','2012-4-11 10:30:30.009412', NULL),
-(8, 1, 8,'2012-4-11 10:00:00.00000','2012-4-11 10:38:10.000754', NULL),
-(9, 1, 9,'2012-4-11 10:00:00.00000','2012-4-11 10:48:10.000002', NULL),
-(10, 1, 10,'2012-4-11 10:00:00.00000','2012-4-11 10:39:10.000003', NULL),
-(11, 1, 11,'2012-4-11 10:00:00.00000','2012-4-11 10:55:10.001483', NULL),
-(12, 1, 12,'2012-4-11 10:00:00.00000','2012-4-11 10:50:20.000004', NULL),
-(13, 1, 13,'2012-4-11 10:00:00.00000','2012-4-11 10:58:40.000005', NULL),
-(14, 1, 14,'2012-4-11 10:00:00.00000','2012-4-11 11::01.000005', NULL),
-(15, 1, 15,'2012-4-11 10:00:00.00000','2012-4-11 11:10:30.009068', NULL),
-(16, 1, 16,'2012-4-11 10:00:00.00000','2012-4-11 11:09:10.000500', NULL);
+(1, 1, 1,'2012-4-11 10:00:00.00000','2012-4-11 10:45:10.00000', NULL),
+(2, 1, 2,'2012-4-11 10:00:00.00000','2012-4-11 10:35:10.00000', NULL),
+(3, 1, 3,'2012-4-11 10:00:00.00000','2012-4-11 10:37:10.00148', NULL),
+(4, 1, 4,'2012-4-11 10:00:00.00000','2012-4-11 10:36:20.00000', NULL),
+(5, 1, 5,'2012-4-11 10:00:00.00000','2012-4-11 10:35:40.00000', NULL),
+(6, 1, 6,'2012-4-11 10:00:00.00000','2012-4-11 10:40:01.00000', NULL),
+(7, 1, 7,'2012-4-11 10:00:00.00000','2012-4-11 10:30:30.00908', NULL),
+(8, 1, 8,'2012-4-11 10:00:00.00000','2012-4-11 10:38:10.00000', NULL),
+(9, 1, 9,'2012-4-11 10:00:00.00000','2012-4-11 10:48:10.00000', NULL),
+(10, 1, 10,'2012-4-11 10:00:00.00000','2012-4-11 10:39:10.00000', NULL),
+(11, 1, 11,'2012-4-11 10:00:00.00000','2012-4-11 10:55:10.00148', NULL),
+(12, 1, 12,'2012-4-11 10:00:00.00000','2012-4-11 10:50:20.00000', NULL),
+(13, 1, 13,'2012-4-11 10:00:00.00000','2012-4-11 10:58:40.00000', NULL),
+(14, 1, 14,'2012-4-11 10:00:00.00000','2012-4-11 11::01.00000', NULL),
+(15, 1, 15,'2012-4-11 10:00:00.00000','2012-4-11 11:10:30.00908', NULL),
+(16, 1, 16,'2012-4-11 10:00:00.00000','2012-4-11 11:09:10.00000', NULL);
 
 -- Actualiza el campo Edad a partir de la Fecha de Nacimiento del corredor
 --
 UPDATE Corredores SET Edad = TIMESTAMPDIFF(YEAR,FechaNacimiento,NOW());
 --
--- Actualizar la columna CodCategoría de la tabla corredor, teniendo -- -- en -
+-- Actualizar la columna CodCategoría de la tabla corredor, teniendo en
 -- cuenta la Edad y el cuadrante de la tabla categorías
 --
-UPDATE Corredores SET categoria_id = 1 WHERE Edad<12;
-UPDATE Corredores SET categoria_id = 2 WHERE Edad BETWEEN 12 AND 14;
-UPDATE Corredores SET categoria_id = 3 WHERE Edad BETWEEN 15 AND 17;
-UPDATE Corredores SET categoria_id = 4 WHERE Edad BETWEEN 18 AND 29;
-UPDATE Corredores SET categoria_id = 5 WHERE Edad BETWEEN 30 AND 39;
-UPDATE Corredores SET categoria_id = 6 WHERE Edad BETWEEN 40 AND 49;
-UPDATE Corredores SET categoria_id = 7 WHERE Edad BETWEEN 50 AND 60;
-UPDATE Corredores SET categoria_id = 8 WHERE Edad>=60;
+UPDATE Corredores SET id_categoria = 1 WHERE Edad<12;
+UPDATE Corredores SET id_categoria = 2 WHERE Edad BETWEEN 12 AND 14;
+UPDATE Corredores SET id_categoria = 3 WHERE Edad BETWEEN 15 AND 17;
+UPDATE Corredores SET id_categoria = 4 WHERE Edad BETWEEN 18 AND 29;
+UPDATE Corredores SET id_categoria = 5 WHERE Edad BETWEEN 30 AND 39;
+UPDATE Corredores SET id_categoria = 6 WHERE Edad BETWEEN 40 AND 49;
+UPDATE Corredores SET id_categoria = 7 WHERE Edad BETWEEN 50 AND 60;
+UPDATE Corredores SET id_categoria = 8 WHERE Edad>=60;
 --
 -- Actualizar la columna Tiempoinvertido de la tabla Registros,
 -- a partir de las columnas Salida y Llegada.
 --
-UPDATE registros SET TiempoInvertido = TIMEDIFF(Llegada,Salida);
+UPDATE registros SET TiempoInvertido = TIMEDIFF(Llegada,Salida)
