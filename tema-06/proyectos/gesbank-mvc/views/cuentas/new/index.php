@@ -38,7 +38,16 @@
             <!-- cliente -->
             <div class="mb-3">
                 <label for="id_cliente" class="form-label">Cliente</label>
-                <input type="number" class="form-control" name="id_cliente">
+                <select class="form-select" name="id_cliente" id="">
+                    <option selected disabled>Seleccione un cliente </option>
+                    <?php foreach ($this->clientes as $cliente): ?>
+                        <div class="form-check">
+                            <option value="<?= $cliente->id ?>">
+                                <?= $cliente->cliente ?>
+                            </option>
+                        </div>
+                    <?php endforeach; ?>
+                </select>
             </div>
 
 

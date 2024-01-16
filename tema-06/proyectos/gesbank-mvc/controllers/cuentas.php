@@ -39,7 +39,7 @@ class Cuentas extends Controller
     {
 
         # Cargamos los datos del formulario
-        $cuenta = new classCuenta(
+        $cuenta = new Cuenta(
             null,
             $_POST['num_cuenta'],
             $_POST['id_cliente'],
@@ -86,7 +86,7 @@ class Cuentas extends Controller
         $id = $param[0];
 
         # Con los detalles del formulario creo objeto cuenta
-        $cuenta = new classCuenta(
+        $cuenta = new Cuenta(
             null,
             $_POST['num_cuenta'],
             $_POST['id_cliente'],

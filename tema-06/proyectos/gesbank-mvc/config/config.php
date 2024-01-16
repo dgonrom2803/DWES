@@ -4,7 +4,7 @@
 # Ruta absoluta
     // -> Tenemos en cuenta que debemos actualizar la URL que nos aparezca en nuestro localhost
 
-define('URL', 'http://localhost/dwes/DWES/tema-06/proyectos/gesbank-mvc/');
+define('URL', 'http://localhost/dwes/tema-06/proyectos/gesbank-mvc/');
 
 # Constante de la Base de Datos
     // -> Revisamos los datos de conexion a la BBDD
