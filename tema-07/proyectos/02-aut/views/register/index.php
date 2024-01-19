@@ -18,14 +18,14 @@
                 <div class="card">
                     <div class="card-header">Registro Usuarios</div>
                     <div class="card-body">
-                        <form method="POST" action="<?= URL ?>register/validate">
+                        <form method="POST" action="<?=URL?>/register/validate">
                             
                             <!-- campo name -->
                             <div class="mb-3 row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">Nombre</label>
 
                                 <div class="col-md-6">
-                                    <input id="name" type="text" class="form-control" name="name" value="<?= $this->name; ?>" required autocomplete="name" autofocus>
+                                    <input id="name" type="text" class="form-control <?= (isset($this->errores['name']))? 'is-invalid': null ?>" name="name" value="<?= $this->name; ?>" required autocomplete="name" autofocus>
 
                                     <?php if (isset($this->errores['name'])): ?>
                                         <span class="form-text text-danger" role="alert">
@@ -78,7 +78,7 @@
                                 <div class="col-md-8 offset-md-4">
                                     <a class="btn btn-secondary" href="<?=URL?>login" role="button">Cancelar</a>
                                     <button type="reset" class="btn btn-secondary" >Reset</button>
-                                    <button type="submit" class="btn btn-primary">Registrar</button>
+                                    <button type="submit" formaction="<?= URL ?>register/validate" class="btn btn-primary">Registrar</button>
                                 </div>
                             </div>
                         </form>
@@ -86,16 +86,3 @@
                 </div>
             </div>
         </div>
-
-
-
-    </div>
-
-    <!-- /.container -->
-    
-    <?php require_once("template/partials/footer.php") ?>
-	<?php require_once("template/partials/javascript.php") ?>
-	
-</body>
-
-</html>

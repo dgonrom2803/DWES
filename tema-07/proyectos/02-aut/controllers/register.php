@@ -40,7 +40,7 @@
 
             }
         
-            $this->view->render('aut/register/index');
+            $this->view->render('register/index');
         }
     
 
@@ -65,16 +65,20 @@
         }
 
         # Validar Email
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (empty($email)){
+            $errores['email']="Campo Obligatorio";
+        }else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errores['email'] = "Email: Email no válido";
-        } elseif (!$this->model->validaEmailUnique($email)) {
+        }else if (!$this->model->validateEmailUnique($email)) {
             $errores['email'] = "Email existente, ya está registrado";
         }
 
         # Validar password
-        if (strcmp($password, $password_confirm) !== 0) {
+        if (empty($password)){
+            $errores['password']="Campo Obligatorio";
+        }else if (strcmp($password, $password_confirm) !== 0) {
             $errores['password'] = "Password no coincidentes";
-        } elseif (!$this->model->validarPass($password)) {
+        } elseif (!$this->model->validatePass($password)) {
             $errores['password'] = "Password: No permitido";
         }
 
@@ -92,9 +96,9 @@
             
             # Añade nuevo usuario
 
-            $this->model->crear($name, $email, $password);
+            $this->model->create($name, $email, $password);
     
-            $_SESSION['mensaje'] = "Usuario registrado correctamente";
+            $_SESSION['notify'] = "Usuario registrado correctamente";
             $_SESSION['email'] = $email;
             $_SESSION['password'] = $password;
             
