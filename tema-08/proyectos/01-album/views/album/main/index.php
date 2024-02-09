@@ -54,6 +54,7 @@
 								<th>Fecha</th>
 								<th>Categoría</th>
 								<th>Etiquetas</th>
+								<th>Carpeta</th>
 								<th>Acciones</th>
 							</tr>
 						</thead>
@@ -62,6 +63,9 @@
 
 							<!-- Objeto clase pdostatement en foreach -->
 							<?php foreach ($this->albumes as $album): ?>
+								
+								<?php require_once("template/partials/modal.php") ?>
+
 								<tr>
 									<!-- Formatos distintos para cada  columna -->
 
@@ -86,6 +90,9 @@
 									</td>
 									<td>
 										<?= $album->etiquetas ?>
+									</td>
+									<td>
+										<?= $album->carpeta ?>
 									</td>
 
 
@@ -113,12 +120,10 @@
 											<i class="bi bi-card-text"></i>
 										</a>
 										<!-- botón  subir imagen -->
-										<!-- <a href="<?= URL ?>album/add/<?= $album->id ?> ?>" title="Subir imagenes" class="btn btn-success
-											<?= (!in_array($_SESSION['id_rol'], $GLOBALS['album']['show'])) ?
-												'disabled' : null ?>">
-											<i class="bi bi-image"></i>
-										</a> -->
-
+										<a href="#" title="Subir " data-bs-toggle="modal"
+											data-bs-target="#subir<?= $album->id ?>" class="btn btn-success"
+											<?= (!in_array($_SESSION['id_rol'], $GLOBALS['album']['modal'])) ? 'disabled' : null ?>><i class="bi bi-cloud-upload-fill"></i>
+										</a>
 									</td>
 								</tr>
 

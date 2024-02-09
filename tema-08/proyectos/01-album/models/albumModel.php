@@ -287,8 +287,6 @@ class albumModel extends Model
         }
     }
     
-    
-
 
     public function validarFecha(string $fecha)
     {
@@ -298,8 +296,62 @@ class albumModel extends Model
         }
         return FALSE;
     }
+
+
+public function subirArchivo($archivos, $carpeta){
+
+		$num = count($archivos['tmp_name']);
+
+		//Comprobamos antes si ha ocurrido algún errorde archivo
+		$phpFileUploadErrors = array(
+			0 => 'There is no error, the file uploaded with success',
+			1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
+			2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
+			3 => 'The uploaded file was only partially uploaded',
+			4 => 'No file was uploaded',
+			6 => 'Missing a temporary folder',
+			7 => 'Failed to write file to disk.',
+			8 => 'A PHP extension stopped the file upload.',
+		);
+		
+		$error = null;
+
+		for($i = 0; $i <= $num -1 && is_null($error); $i++){
+			if($archivos['error'][$i] != UPLOAD_ERR_OK){
+				$error = $phpFileUploadErrors[$archivos['error'][$i]];
+			}else{
+                                //Validar tamaño máximo 4mb
+                                $max_file = 4194304;
+                                if($archivos['size'][$i] > $max_file){
+
+                                        //Errores de tipo error
+                                        $error = "Archivo excede tamaño maximo 4MB";
+
+                                }
+                                $info = new SplFileInfo($archivos['name'][$i]);
+                                $tipos_permitidos = ['JPEG' , 'JPG', 'GIF', 'PNG'];
+                                if(!in_array(strtoupper($info->getExtension()), $tipos_permitidos)){
+                                        $error = "Tipo archivo no permitido. Sólo JPG, JPEG, GIF o PNG";
+                                }
+                        }
+		}
+
+		//Sólo se procederá a la subida de archivos en caso de no ocurrir ningun error
+		if(is_null($error)){
+			for($i = 0; $i <= $num -1; $i++){
+				if(is_uploaded_file($archivos['tmp_name'][$i])){
+					move_uploaded_file($archivos['tmp_name'][$i],"images/".$carpeta."/".$archivos['name'][$i]);
+				}
+			}
+			$_SESSION['mensaje'] = "Archivo/s subido/s con éxito";
+		}else{
+			$_SESSION['error'] = $error;
+		}
+
+        
+                
+	}
+
 }
-
-
 
 ?>

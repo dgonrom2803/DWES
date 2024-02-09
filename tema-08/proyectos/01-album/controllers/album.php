@@ -268,7 +268,7 @@ class Album extends Controller
             $carpeta = filter_var($_POST['carpeta'] ?? $album_orig->carpeta, FILTER_SANITIZE_SPECIAL_CHARS); // Nuevo nombre de la carpeta
 
             # creamos un nuevo objeto album con los datos actualizados
-            $album = new classalbum(
+            $album = new classAlbum(
                 null,
                 $titulo,
                 $descripcion,
@@ -487,27 +487,56 @@ class Album extends Controller
         }
         return rmdir($directorio);
     }
+    function subir($param){
+
+        sec_session_start();
+
+        if (isset($_SESSION['error'])){
+
+            $this->view->error = $_SESSION['error'];
+
+            unset($_SESSION['error']);
+
+        }
+
+        if (isset($_SESSION['mensaje'])){
+
+            $this->view->mensaje = $_SESSION['mensaje'];
+
+            unset($_SESSION['mensaje']);
+
+        }
+
+         // Capa autentificación
+         if(!isset($_SESSION['id'])){
+
+            header("location:" . URL . "login");
+
+            exit();
+
+        }else if(!in_array($_SESSION['id_rol'], $GLOBALS['consultar'])){
+
+            $_SESSION['error'] = "Operacion sin privilegios";
+
+            header("location:" . URL . "index");
+
+            exit();
+
+        }
+
+        // Obtengo objeto de la clase album
+        $album = $this->model->read($param[0]);
+
+        $this->model->subirArchivo($_FILES['archivos'],$album->carpeta);
+
+        $numFotos = count(glob("images/" . $album->carpeta . "/*"));
+        
+        $this->model->contadorFotos($album->id, $numFotos);
+
+        header("location:" . URL . "albumes");
 
 
-    // function add($param = [])
-    // {
-    //     // Usamod el método del repositorio "02-subida"
-
-    //     session_start();
-
-    //     if (!isset($_SESSION['id'])) {
-    //         $_SESSION['mensaje'] = "Usuario debe autentificarse";
-    //         header("location:" . URL . "login");
-    //     } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['album']['delete']))) {
-    //         $_SESSION['mensaje'] = "Operación sin privilegios";
-    //         header('location:' . URL . 'album');
-    //     } else {
-    //         $album = $this->model->read($param[0]);
-    //         $this->model->upload($_FILES['archivos'], $album->carpeta);
-    //         header("location:" . URL . "album");
-    //     }
-    // }
-
+    }
 
 
 }
