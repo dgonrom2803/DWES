@@ -32,7 +32,7 @@ try {
     $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
     //Cabecera del emial
-    $destinatario = '';
+    $destinatario = 'dgonrom2803@g.educaand.es';
     $remitente    = 'diegogonzalezromero7@gmail.com';
     $asunto       = "Email con PHPMailer";
     $mensaje      = "
@@ -54,8 +54,8 @@ try {
     // $mail->addBCC('bcc@example.com');
 
     //Attachments
-    // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
-    // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+    $mail->addAttachment('files/fichero01.png');         //Add attachments
+    $mail->addAttachment('files/fichero03.jpg');               //Optional name
 
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
