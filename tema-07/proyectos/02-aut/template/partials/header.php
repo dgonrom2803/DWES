@@ -3,8 +3,8 @@
         <!-- Titulos y subtitulos -->
         <div class="jumbotron jumbotron-fluid">
         <div class="container">
-            <h4 class="display-7">Model Vista Controlador </h4>
-            <p class="lead">Tema 6 - DWES - Curso 23/24</p>
+            <h4 class="display-7">Model Vista Controlador - Gesbank</h4>
+            <p class="lead">Tema 7 - DWES - Curso 23/24</p>
         </div>
         </div>
     </hgroup>

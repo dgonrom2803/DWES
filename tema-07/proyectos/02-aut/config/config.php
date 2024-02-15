@@ -3,11 +3,11 @@
 
 # Ruta absoluta
 
-define('URL', 'http://localhost/dwes/tema-07/proyectos/02-aut/');
+define('URL', 'http://localhost/dwes/DWES/tema-07/proyectos/02-aut/');
 
 # Constante de la Base de Datos
 define('HOST', 'localhost');
-define('DB', 'fp');
+define('DB', 'gesbank');
 define('USER', 'root');
 define('PASSWORD', '');
 define('CHARSET', 'utf8mb4');
