@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary"> 
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
         <a class="navbar-brand" href="<?= URL ?>movimientos">Movimientos</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -16,9 +16,15 @@
                         Ordenar
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/order/1">Tipo</a></li>
-                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/order/2">Monto</a></li>
-                        <!-- Agrega aquí más opciones de ordenamiento si es necesario -->
+                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/order/1">ID</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/order/2">Nº Cuenta</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/order/3">Fecha y Hora</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/order/4">Concepto</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/order/5">Tipo</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/order/6">Cantidad</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/order/7">Saldo</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/order/8">Fecha Creación</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>movimientos/order/9">Fecha Actualización</a></li>
                     </ul>
                 </li>
             </ul>

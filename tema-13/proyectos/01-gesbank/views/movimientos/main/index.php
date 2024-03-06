@@ -40,7 +40,7 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>ID Cuenta</th>
+                            <th>Nº Cuenta</th>
                             <th>Fecha y Hora</th>
                             <th>Concepto</th>
                             <th>Tipo</th>
@@ -57,7 +57,7 @@
                             <tr>
                                 <!-- Detalles de movimiento -->
                                 <td><?= $movimiento->id ?></td>
-                                <td><?= $movimiento->id_cuenta ?></td>
+                                <td><?= $movimiento->num_cuenta ?></td>
                                 <td><?= $movimiento->fecha_hora ?></td>
                                 <td><?= $movimiento->concepto ?></td>
                                 <td><?= $movimiento->tipo ?></td>

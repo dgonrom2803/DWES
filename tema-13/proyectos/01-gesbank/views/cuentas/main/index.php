@@ -103,6 +103,9 @@
 									<!-- botón mostrar -->
 									<a href="<?= URL ?>cuentas/show/<?= $cuenta->id ?> ?>" title="Mostrar">
 										<i class="bi bi-card-text"></i></a>
+									<!-- botón mostrar movimientos -->
+									<a href="<?= URL ?>cuentas/moves/<?= $cuenta->id ?> ?>" title="Mostrar Movimientos">
+									<i class="bi bi-bar-chart-line-fill"></i></a>
 
 								</td>
 							</tr>

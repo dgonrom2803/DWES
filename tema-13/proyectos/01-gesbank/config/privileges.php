@@ -50,4 +50,12 @@ $GLOBALS['movimiento']['import'] = [1];
 $GLOBALS['movimiento']['export'] = [1];
 $GLOBALS['movimiento']['pdf'] = [1,2];
 
+$GLOBALS['user']['main'] = [1];
+$GLOBALS['user']['new'] = [1];
+$GLOBALS['user']['delete'] = [1];
+$GLOBALS['user']['edit'] = [1];
+$GLOBALS['user']['show'] = [1];
+$GLOBALS['user']['filter'] = [1];
+$GLOBALS['user']['order'] = [1];
+
 ?>

@@ -25,6 +25,7 @@ class Movimientos extends Controller
 
         // Obtengo los movimientos del modelo asignado al controlador
         $this->view->movimientos = $this->model->get();
+        
 
         // Renderizo la vista correspondiente
         $this->view->render('movimientos/main/index');

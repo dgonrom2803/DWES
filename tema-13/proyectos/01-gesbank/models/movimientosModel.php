@@ -28,7 +28,7 @@ class movimientosModel extends Model
             # comando sql
             $sql = "SELECT 
                         movimientos.id,
-                        movimientos.id_cuenta,
+                        cuentas.num_cuenta,
                         movimientos.fecha_hora,
                         movimientos.concepto,
                         movimientos.tipo,
@@ -38,8 +38,9 @@ class movimientosModel extends Model
                         movimientos.update_at
                     FROM
                         movimientos
+                        JOIN cuentas ON movimientos.id_cuenta = cuentas.id
                     ORDER BY 
-                        id
+                        movimientos.id
                     ";
 
             # conectamos con la base de datos
@@ -110,8 +111,14 @@ class movimientosModel extends Model
     }
     public function create(Movimiento $movimiento)
     {
-
         try {
+            // Obtener el saldo actual de la cuenta
+            $saldoActual = $this->getSaldoActualCuenta($movimiento->id_cuenta);
+    
+            // Calcular el nuevo saldo
+            $nuevoSaldo = $this->calcularNuevoSaldo($saldoActual, $movimiento);
+    
+            // Insertar el nuevo movimiento
             $sql = "INSERT INTO Movimientos (
                         id_cuenta,
                         fecha_hora,
@@ -133,28 +140,76 @@ class movimientosModel extends Model
                         :update_at
                     )
                 ";
-            # Conectar con la base de datos
+            // Conectar con la base de datos
             $conexion = $this->db->connect();
-
             $pdoSt = $conexion->prepare($sql);
-
+    
             $pdoSt->bindParam(':id_cuenta', $movimiento->id_cuenta, PDO::PARAM_INT);
             $pdoSt->bindParam(':fecha_hora', $movimiento->fecha_hora, PDO::PARAM_STR);
             $pdoSt->bindParam(':concepto', $movimiento->concepto, PDO::PARAM_STR);
             $pdoSt->bindParam(':tipo', $movimiento->tipo, PDO::PARAM_STR);
             $pdoSt->bindParam(':cantidad', $movimiento->cantidad, PDO::PARAM_STR);
-            $pdoSt->bindParam(':saldo', $movimiento->saldo, PDO::PARAM_STR);
+            $pdoSt->bindParam(':saldo', $nuevoSaldo, PDO::PARAM_STR);
             $pdoSt->bindParam(':create_at', $movimiento->create_at, PDO::PARAM_STR);
             $pdoSt->bindParam(':update_at', $movimiento->update_at, PDO::PARAM_STR);
-
+    
             $pdoSt->execute();
-
+    
+            // Actualizar el saldo de la cuenta
+            $this->actualizarSaldoCuenta($movimiento->id_cuenta, $nuevoSaldo);
+    
         } catch (PDOException $e) {
             include_once('template/partials/errorDB.php');
             exit();
         }
-
     }
+    
+    private function getSaldoActualCuenta($id_cuenta)
+    {
+        // Comando SQL para obtener el saldo actual de la cuenta
+        $sql = "SELECT saldo FROM cuentas WHERE id = :id_cuenta";
+        
+        // Conectar con la base de datos
+        $conexion = $this->db->connect();
+        $pdoSt = $conexion->prepare($sql);
+    
+        $pdoSt->bindParam(':id_cuenta', $id_cuenta, PDO::PARAM_INT);
+        $pdoSt->execute();
+    
+        // Obtener el saldo actual
+        $resultado = $pdoSt->fetch(PDO::FETCH_ASSOC);
+        return $resultado['saldo'];
+    }
+    
+    private function calcularNuevoSaldo($saldoActual, $movimiento)
+    {
+        // Calcular el nuevo saldo basado en el tipo de movimiento
+        if ($movimiento->tipo === 'I') {
+            // Si es un ingreso, se suma la cantidad al saldo actual
+            return $saldoActual + $movimiento->cantidad;
+        } else if ($movimiento->tipo === 'R') {
+            // Si es un reintegro, se resta la cantidad al saldo actual
+            return $saldoActual - $movimiento->cantidad;
+        } else {
+            // Si el tipo de movimiento no es válido, se devuelve el saldo actual sin cambios
+            return $saldoActual;
+        }
+    }
+    
+    private function actualizarSaldoCuenta($id_cuenta, $nuevoSaldo)
+    {
+        // Comando SQL para actualizar el saldo de la cuenta
+        $sql = "UPDATE cuentas SET saldo = :nuevo_saldo WHERE id = :id_cuenta";
+        
+        // Conectar con la base de datos
+        $conexion = $this->db->connect();
+        $pdoSt = $conexion->prepare($sql);
+    
+        $pdoSt->bindParam(':id_cuenta', $id_cuenta, PDO::PARAM_INT);
+        $pdoSt->bindParam(':nuevo_saldo', $nuevoSaldo, PDO::PARAM_STR);
+        $pdoSt->execute();
+    }
+    
 
     public function read($id)
     {
@@ -240,7 +295,7 @@ class movimientosModel extends Model
             # comando sql
             $sql = "SELECT 
                         movimientos.id,
-                        movimientos.id_cuenta,
+                        cuentas.num_cuenta,
                         movimientos.fecha_hora,
                         movimientos.concepto,
                         movimientos.tipo,
@@ -250,6 +305,7 @@ class movimientosModel extends Model
                         movimientos.update_at
                     FROM
                         movimientos
+                        JOIN cuentas ON movimientos.id_cuenta = cuentas.id
                     ORDER BY 
                         :criterio";
 
