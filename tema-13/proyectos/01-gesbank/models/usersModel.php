@@ -1,4 +1,19 @@
 <?php
+
+/*
+    clientesModel.php
+
+    Modelo del controlador clientes
+
+    Definir los métodos de acceso a la base de datos
+    
+    - insert
+    - update
+    - select
+    - delete
+    - etc..
+*/
+
 class usersModel extends Model
 {
 
@@ -82,7 +97,7 @@ class usersModel extends Model
 
     }
 
-    public function update(int $id, classUser $user)
+    public function update(int $id, classUser $user, int $rol)
     {
         try {
             $sql = "UPDATE users
@@ -92,8 +107,7 @@ class usersModel extends Model
                         password = :password
                     WHERE
                         id = :id
-                    LIMIT 1
-                ";
+                    LIMIT 1";
 
             $conexion = $this->db->connect();
             $pdoSt = $conexion->prepare($sql);
@@ -105,11 +119,25 @@ class usersModel extends Model
 
             $pdoSt->execute();
 
+            // Actualizar el rol del usuario
+            $sqlRol = "UPDATE
+                            roles_users
+                        SET 
+                            role_id = :rol
+                        WHERE 
+                            user_id = :id";
+
+            $stmtRol = $conexion->prepare($sqlRol);
+            $stmtRol->bindParam(':rol', $rol);
+            $stmtRol->bindParam(':id', $id);
+            $stmtRol->execute();
+
         } catch (PDOException $e) {
             include_once('template/partials/errorDB.php');
             exit();
         }
     }
+
 
     public function order(int $criterio)
     {
@@ -254,13 +282,13 @@ class usersModel extends Model
     }
 
     # Creo nuevo usuario a partir de los datos de formulario de registro
-    public function crear($name, $email, $pass)
+    public function crear($name, $email, $pass, $rol)
     {
         try {
 
             $password_encriptado = password_hash($pass, CRYPT_BLOWFISH);
 
-            $insertarsql = "INSERT INTO users VALUES (
+            $sql = "INSERT INTO users VALUES (
                  null,
                 :nombre,
                 :email,
@@ -269,7 +297,7 @@ class usersModel extends Model
                 default)";
 
             $pdo = $this->db->connect();
-            $stmt = $pdo->prepare($insertarsql);
+            $stmt = $pdo->prepare($sql);
 
             $stmt->bindParam(':nombre', $name, PDO::PARAM_STR, 50);
             $stmt->bindParam(':email', $email, PDO::PARAM_STR, 50);
@@ -278,9 +306,7 @@ class usersModel extends Model
             $stmt->execute();
 
             # Asignamos rol de registrado
-            // Rol que asignaremos por defecto
-            $role_id = 3;
-            $insertarsql = "INSERT INTO roles_users VALUES (
+            $sql = "INSERT INTO roles_users VALUES (
                 null,
                 :user_id,
                 :role_id,
@@ -290,10 +316,10 @@ class usersModel extends Model
             # Obtener id del último usuario insertado
             $ultimo_id = $pdo->lastInsertId();
 
-            $stmt = $pdo->prepare($insertarsql);
+            $stmt = $pdo->prepare($sql);
 
             $stmt->bindParam(':user_id', $ultimo_id);
-            $stmt->bindParam(':role_id', $role_id);
+            $stmt->bindParam(':role_id', $rol);
             $stmt->execute();
 
         } catch (PDOException $e) {

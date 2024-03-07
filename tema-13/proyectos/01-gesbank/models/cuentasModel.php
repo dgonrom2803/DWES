@@ -68,6 +68,40 @@ class cuentasModel extends Model
         }
     }
 
+    public function getMovimientos($id)
+    {
+        try {
+            $sql = "SELECT 
+                        movimientos.id,
+                        cuentas.num_cuenta,
+                        movimientos.fecha_hora,
+                        movimientos.concepto,
+                        movimientos.tipo,
+                        movimientos.cantidad,
+                        movimientos.saldo
+                    FROM
+                        movimientos
+                    INNER JOIN
+                        cuentas
+                    ON
+                        movimientos.id_cuenta = cuentas.id
+                    WHERE
+                        movimientos.id_cuenta = :id;";
+
+            $conexion = $this->db->connect();
+            $pdost = $conexion->prepare($sql);
+            $pdost->bindParam(':id', $id, PDO::PARAM_INT);
+            $pdost->setFetchMode(PDO::FETCH_OBJ);
+
+            $pdost->execute();
+
+            return $pdost->fetchAll();
+        } catch (PDOException $e) {
+            include_once('template/partials/errorDB.php');
+            exit();
+        }
+    }
+
 
     public function create(Cuenta $cuenta)
     {

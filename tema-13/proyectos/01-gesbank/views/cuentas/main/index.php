@@ -89,6 +89,7 @@
 								</td>
 								<!-- botones de acción -->
 								<td>
+									
 
 									<!-- botón eliminar -->
 									<a href="<?= URL ?>cuentas/delete/<?= $cuenta->id ?>" title="Eliminar"

@@ -529,6 +529,41 @@ function pdf()
     }
 }
 
+function moves($param = [])
+{
+    session_start();
+
+    // Comprueba la autenticación del usuario
+    if (!isset($_SESSION['id'])) {
+        $_SESSION['mensaje'] = "Usuario No Autentificado";
+        header("location:" . URL . "login");
+        exit();
+    } else if (!in_array($_SESSION['id_rol'], $GLOBALS['cuenta']['moves'])) {
+        $_SESSION['mensaje'] = "Operación sin privilegios";
+        header('location:' . URL . 'cuentas');
+        exit();
+    }
+
+    // Obtiene el ID de la cuenta
+    $id = $param[0];
+
+    // Obtiene los movimientos de la cuenta mediante el modelo
+    $movimientos = $this->model->getMovimientos($id);
+
+    // Si no hay movimientos, redirecciona a la página de cuentas
+    if (empty($movimientos)) {
+        $_SESSION['mensaje'] = "La cuenta no tiene movimientos";
+        header('location:' . URL . 'cuentas');
+        exit();
+    }
+
+    // Configura las propiedades de la vista
+    $this->view->movimientos = $movimientos;
+
+    // Renderiza la vista de los movimientos de la cuenta
+    $this->view->render('cuentas/moves/index');
+}
+
 
 
 }

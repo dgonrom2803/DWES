@@ -38,6 +38,7 @@ $GLOBALS['cuenta']['order'] = [1, 2, 3];
 $GLOBALS['cuenta']['import'] = [1];
 $GLOBALS['cuenta']['export'] = [1];
 $GLOBALS['cuenta']['pdf'] = [1,2];
+$GLOBALS['cuenta']['moves'] = [1,2];
 
 $GLOBALS['movimiento']['main'] = [1, 2, 3];
 $GLOBALS['movimiento']['new'] = [1, 2];
@@ -57,5 +58,7 @@ $GLOBALS['user']['edit'] = [1];
 $GLOBALS['user']['show'] = [1];
 $GLOBALS['user']['filter'] = [1];
 $GLOBALS['user']['order'] = [1];
+
+
 
 ?>
