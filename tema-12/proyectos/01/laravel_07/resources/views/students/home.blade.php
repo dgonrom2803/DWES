@@ -36,7 +36,7 @@
                 <td>{{ $alumno->phone_number}}</td>
                 <td>{{ $alumno->city}}</td>
                 <td>{{ $alumno->email}}</td>
-                <td>{{ $alumno->course_id}}</td>
+                <td>{{ $alumno->course->course}}</td>
                 
                 {{-- botones de accion --}}
                 <td>

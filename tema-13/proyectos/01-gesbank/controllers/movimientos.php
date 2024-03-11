@@ -182,6 +182,7 @@ class Movimientos extends Controller
 
     function order($param = [])
     {
+        session_start();
         // Obtengo el criterio de ordenación
         $criterio = $param[0];
 
@@ -198,6 +199,7 @@ class Movimientos extends Controller
 
     function filter($param = [])
     {
+        session_start();
         // Obtengo la expresión de filtrado
         $expresion = $_GET['expresion'];
 

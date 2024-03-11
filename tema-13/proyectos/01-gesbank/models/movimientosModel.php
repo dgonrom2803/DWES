@@ -338,7 +338,7 @@ class movimientosModel extends Model
         try {
             $sql = "SELECT 
                         movimientos.id,
-                        movimientos.id_cuenta,
+                        cuentas.num_cuenta,
                         movimientos.fecha_hora,
                         movimientos.concepto,
                         movimientos.tipo,
@@ -348,10 +348,11 @@ class movimientosModel extends Model
                         movimientos.update_at
                     FROM
                         movimientos
+                        INNER JOIN cuentas ON movimientos.id_cuenta = cuentas.id
                     WHERE
                         CONCAT_WS(', ', 
                                     movimientos.id,
-                                    movimientos.id_cuenta,
+                                    cuentas.num_cuenta,
                                     movimientos.fecha_hora,
                                     movimientos.concepto,
                                     movimientos.tipo,

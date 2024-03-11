@@ -18,12 +18,11 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="<?= URL ?>cuentas/order/1">Id</a></li>
                         <li><a class="dropdown-item" href="<?= URL ?>cuentas/order/2">Nº de cuenta</a></li>
-                        <li><a class="dropdown-item" href="<?= URL ?>cuentas/order/3">Nombre</a></li>
-                        <li><a class="dropdown-item" href="<?= URL ?>cuentas/order/4">Apellidos</a></li>
-                        <li><a class="dropdown-item" href="<?= URL ?>cuentas/order/5">Fecha alta</a></li>
-                        <li><a class="dropdown-item" href="<?= URL ?>cuentas/order/6">Fecha último movimiento</a></li>
-                        <li><a class="dropdown-item" href="<?= URL ?>cuentas/order/7">Movimientos totales</a></li>
-                        <li><a class="dropdown-item" href="<?= URL ?>cuentas/order/8">Saldo</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>cuentas/order/3">Cliente</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>cuentas/order/4">Fecha alta</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>cuentas/order/5">Fecha último movimiento</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>cuentas/order/6">Movimientos totales</a></li>
+                        <li><a class="dropdown-item" href="<?= URL ?>cuentas/order/7">Saldo</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
