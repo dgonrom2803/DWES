@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Student;
+use App\Models\Course;
 
 use Illuminate\Http\Request;
 
@@ -23,7 +24,9 @@ class StudentController extends Controller
      */
     public function create()
     {
-        //
+        //Carga formulario nuevo alumno
+        $cursos = Course::all()->sortBy('id');
+        return view('student.create', ['cursos'=> $cursos]);
     }
 
     /**

@@ -3,7 +3,6 @@
 @section('titulo', 'Alumnos')
 @section('subtitulo', 'Añadir Nuevo Alumno')
 @section('contenido')
-    @include('partials.alerts') 
     <div class="card">
         <div class="card-header">
           Formulario Nuevo Alumno
