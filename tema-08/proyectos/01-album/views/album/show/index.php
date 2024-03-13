@@ -1,117 +1,125 @@
-<!doctype html>
-<html lang="es"> 
+<!DOCTYPE html>
+<html lang="es">
 
-<?php require_once("template/partials/head.php") ?>
+<head>
+    <!-- head -->
+    <?php require_once("template/partials/head.php") ?>
+    <title>
+        <?= $this->title ?>
+    </title>
+</head>
 
 <body>
+    <!-- Menú Principal -->
     <?php require_once("template/partials/menuAut.php") ?>
-    
-    <!-- Page Content -->
+    <br><br><br>
+
+    <!-- Capa principal -->
     <div class="container">
-		<br><br><br><br>
 
-		<?php require_once("template/partials/notify.php") ?>
-		
+        <!-- header -->
+        <?php include 'views/album/partials/header.php' ?>
 
-		<!-- Estilo card de bootstrap -->
-		<div class="card">
-			<div class="card-header">
-				<div class="row">
-					<div class="col">
-						<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-							<legend>Vista Mostrar Album: <?= $this->album->titulo ?></legend>
-							<a class="btn btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Información</a>
-							<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Album</button>			
-							<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">Ambos</button>
-						</div>
-						<h3>El album contiene: <?php echo (count(glob("images/" . $this->album->carpeta . "/*")));?> fotos</h3>
-					</div>
-				</div>	
-			</div>
-			<div class="row">
-				<div class="col">
-					<div class="collapse multi-collapse" id="multiCollapseExample1">
-						<div class="card-body">
-							<form>
-								<!-- ID oculto -->
-								<input type="hidden" name="id" value="<?= $this->album->id ?>">
-								<div class="mb-3">
-									<label class="form-label">Titulo</label>
-									<input type="text" class="form-control" name="titulo" value="<?= $this->album->titulo ?>" readonly>
-								</div>
-								<div class="mb-3">
-									<label class="form-label">Descripcion</label>
-									<input type="text" class="form-control" name="descripcion" value="<?= $this->album->descripcion ?>" readonly>
-								</div>
-								<div class="mb-3">
-									<label class="form-label">Autor</label>
-									<input type="text" class="form-control" name="autor" value="<?= $this->album->autor ?>" readonly>
-								</div>
-								<div class="mb-3">
-									<label class="form-label">Lugar</label>
-									<input type="text" class="form-control" name="lugar" value="<?= $this->album->lugar ?>" readonly>
-								</div>
-								<div class="mb-3">
-									<label class="form-label">Fecha</label>
-									<input type="date" class="form-control" name="fecha" value="<?= $this->album->fecha ?>" readonly>
-								</div>
-								<div class="mb-3">
-									<label class="form-label">Categoria</label>
-									<input type="text" class="form-control" name="categoria" value="<?= $this->album->categoria ?>" readonly>
-								</div>
-								<div class="mb-3">
-									<label class="form-label">Etiquetas</label>
-									<input type="text" class="form-control" name="etiquetas" value="<?= $this->album->etiquetas?>" readonly>
-								</div>
-								<div class="mb-3">
-									<label class="form-label">Carpeta</label>
-									<input type="text" class="form-control" name="carpeta" pattern="[A-Za-z0-9]{1,50}" value="<?= $this->album->carpeta?>" readonly>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="collapse multi-collapse" id="multiCollapseExample2">
-					<div class="album py-5 bg-light">
-						<div class="container">
-							<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-								<!-- foreach par -->
-								<?php $contador = 0;?>
-								<?php foreach(glob("images/" . $this->album->carpeta . "/*") as $imagen): 
-									?>
-									<div class="col-3">
-										<div class="card shadow-sm">
-											<img width="100%" height="225" src="<?=URL. $imagen?>">
-											<div class="card-body">
-												<p class="card-text" style="text-align: center;">Fecha: <?= $this->album->fecha ?></p>
-												<p class="card-text" style="text-align: center;">Lugar: <?= $this->album->lugar ?></p>
-												<div class="d-flex justify-content-between align-items-center">
-													<div class="btn-group">
-													<a href="<?=URL. $imagen?>" target="_blank" class="btn btn-sm btn-outline-secondary" >Ver</a>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								<?php endforeach;?>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="card-footer text-muted">
-				<a class="btn btn-secondary" href="<?= URL ?>albumes" role="button">Volver</a>
-			</div>
-		</div>
+        <legend>Formulario Mostrar Album</legend>
+
+        <!-- Formulario Mostrar album -->
+        <form action="<?= URL ?>album/update/<?= $this->id ?>" method="POST">
+
+            <!-- id -->
+            <div class="mb-3">
+                <label for="id" class="form-label">Id</label>
+                <input type="number" class="form-control" name="id" value="<?= $this->album->id ?>" disabled>
+            </div>
+
+            <!-- titulo -->
+            <div class="mb-3">
+                <label for="titulo" class="form-label">Titulo</label>
+                <input type="text" class="form-control" name="titulo" value="<?= $this->album->titulo ?>" disabled>
+            </div>
+            <!-- descripcion -->
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripcion</label>
+                <input type="text" class="form-control" name="descripcion" value="<?= $this->album->descripcion ?>"
+                    disabled>
+            </div>
+
+            <!-- autor -->
+            <div class="mb-3">
+                <label for="autor" class="form-label">Autor</label>
+                <input type="autor" class="form-control" name="autor" value="<?= $this->album->autor ?>" disabled>
+            </div>
+            <!-- fecha -->
+            <div class="mb-3">
+                <label for="fecha" class="form-label">Fecha</label>
+                <input type="text" class="form-control" name="fecha" value="<?= $this->album->fecha ?>" disabled>
+            </div>
+            <!-- categoria -->
+            <div class="mb-3">
+                <label for="categoria" class="form-label">Categoría</label>
+                <input type="text" class="form-control" name="categoria" value="<?= $this->album->categoria ?>"
+                    disabled>
+            </div>
+            <!-- etiquetas -->
+            <div class="mb-3">
+                <label for="etiquetas" class="form-label">Etiquetas</label>
+                <input type="text" class="form-control" name="etiquetas" value="<?= $this->album->etiquetas ?>"
+                    disabled>
+            </div>
+            <!-- carpeta -->
+            <div class="mb-3">
+                <label for="carpeta" class="form-label">Carpeta</label>
+                <input type="text" class="form-control" name="carpeta" value="<?= $this->album->carpeta ?>" disabled>
+            </div>
+
+            <hr>
+            <hr>
+            <!-- Mostrar imágenes del álbum -->
+            <label for="imagenes" class="form-label">Imágenes del álbum</label>
+            <div class="row">
+                <?php
+                // Ruta de la carpeta del álbum
+                $rutaCarpetaAlbum = 'images/' . $this->album->carpeta;
+
+                // Obtener la lista de archivos en la carpeta del álbum
+                $archivos = scandir($rutaCarpetaAlbum);
+
+                // Filtrar la lista de archivos para obtener solo los archivos de imagen
+                $imagenesAlbum = array_filter($archivos, function ($archivo) {
+                    // Verificar si el archivo es una imagen
+                    $extension = strtolower(pathinfo($archivo, PATHINFO_EXTENSION));
+                    return in_array($extension, ['jpg', 'jpeg', 'png', 'gif']);
+                });
+
+                // Mostrar las imágenes
+                foreach ($imagenesAlbum as $imagen):
+                    ?>
+                    <div class="col-md-3">
+                        <img src="<?= URL . $rutaCarpetaAlbum . '/' . $imagen ?>" class="img-fluid mb-2">
+                        <!-- Botón ver imagen -->
+                        <a href="<?= URL . $rutaCarpetaAlbum . '/' . $imagen ?>" target="_blank"
+                            class="btn btn-primary btn-sm">Ver</a>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <hr>
+            <hr>
+
+            <!-- botones de acción -->
+            <a class="btn btn-secondary" href="<?= URL ?>album" role="button">Volver</a>
+
+        </form>
+
+        <br>
+        <br>
+        <br>
+
+        <!-- Pié del documento -->
+        <?php include 'template/partials/footer.php' ?>
+
     </div>
-	<br><br><br>
-    <!-- /.container -->
-    
-    <?php require_once("template/partials/footer.php") ?>
-	<?php require_once("template/partials/javascript.php") ?>
-	
+
+    <!-- javascript bootstrap 532 -->
+    <?php include 'template/partials/javascript.php' ?>
 </body>
 
 </html>

@@ -265,10 +265,10 @@ class Album extends Controller
             $lugar = filter_var($_POST['lugar'] ?? $album_orig->lugar, FILTER_SANITIZE_SPECIAL_CHARS);
             $categoria = filter_var($_POST['categoria'] ?? $album_orig->categoria, FILTER_SANITIZE_SPECIAL_CHARS);
             $etiquetas = filter_var($_POST['etiquetas'] ?? $album_orig->etiquetas, FILTER_SANITIZE_SPECIAL_CHARS);
-            $carpeta = filter_var($_POST['carpeta'] ?? $album_orig->carpeta, FILTER_SANITIZE_SPECIAL_CHARS); // Nuevo nombre de la carpeta
+            $carpeta = filter_var($_POST['carpeta'] ?? $album_orig->carpeta, FILTER_SANITIZE_SPECIAL_CHARS);
 
             # creamos un nuevo objeto album con los datos actualizados
-            $album = new classAlbum(
+            $album = new classalbum(
                 null,
                 $titulo,
                 $descripcion,
@@ -487,56 +487,35 @@ class Album extends Controller
         }
         return rmdir($directorio);
     }
-    function subir($param){
 
-        sec_session_start();
 
-        if (isset($_SESSION['error'])){
+    function add($param = [])
+    {
+        session_start();
 
-            $this->view->error = $_SESSION['error'];
-
-            unset($_SESSION['error']);
-
-        }
-
-        if (isset($_SESSION['mensaje'])){
-
-            $this->view->mensaje = $_SESSION['mensaje'];
-
-            unset($_SESSION['mensaje']);
-
-        }
-
-         // Capa autentificación
-         if(!isset($_SESSION['id'])){
-
+        if (!isset($_SESSION['id'])) {
+            $_SESSION['mensaje'] = "Usuario debe autentificarse";
             header("location:" . URL . "login");
+        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['album']['add']))) {
+            $_SESSION['mensaje'] = "Operación sin privilegios";
+            header('location:' . URL . 'album');
+        } else {
+            // Obtengo objeto de la clase álbum
+            $album = $this->model->read($param[0]);
 
-            exit();
+            $this->model->upload($_FILES['archivos'], $album->carpeta);
 
-        }else if(!in_array($_SESSION['id_rol'], $GLOBALS['consultar'])){
+            // Limpiar mensaje de error
+            if (!isset($_SESSION['error'])) {
+                unset($_SESSION['error']);
+            }
 
-            $_SESSION['error'] = "Operacion sin privilegios";
-
-            header("location:" . URL . "index");
-
-            exit();
+            header("Location:" . URL . "album");
 
         }
-
-        // Obtengo objeto de la clase album
-        $album = $this->model->read($param[0]);
-
-        $this->model->subirArchivo($_FILES['archivos'],$album->carpeta);
-
-        $numFotos = count(glob("images/" . $album->carpeta . "/*"));
-        
-        $this->model->contadorFotos($album->id, $numFotos);
-
-        header("location:" . URL . "albumes");
-
-
     }
+
+
 
 
 }

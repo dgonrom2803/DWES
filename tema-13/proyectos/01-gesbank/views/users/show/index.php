@@ -35,8 +35,8 @@
             </div>
             <!-- Contraseña -->
             <div class="mb-3">
-                <label for="password" class="form-label">Contraseña</label>
-                <input type="text" class="form-control" name="password" value="<?= $this->user->password ?>" disabled>
+                <label for="rol" class="form-label">Rol</label>
+                <input type="text" class="form-control" name="rol" value="<?= $this->user->rol ?>" disabled>
             </div>
 
             <!-- botones de acción -->

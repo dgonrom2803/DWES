@@ -46,19 +46,18 @@
 							<th>Id</th>
 							<th>Nombre</th>
 							<th>Email</th>
-							<th>Password</th>
+							<th>Rol</th> <!-- Reemplazar "Contraseña" con "Rol" -->
+							<th>Acciones</th>
 						</tr>
 					</thead>
 					<!-- Mostramos cuerpo de la tabla -->
 					<tbody>
-
 						<!-- Objeto clase pdostatement en foreach -->
 						<?php foreach ($this->users as $user): ?>
-
 							<tr>
-								<!-- Formatos distintos para cada  columna -->
+								<!-- Formatos distintos para cada columna -->
 
-								<!-- Detalles de users -->
+								<!-- Detalles de usuarios -->
 								<td>
 									<?= $user->id ?>
 								</td>
@@ -69,37 +68,29 @@
 									<?= $user->email ?>
 								</td>
 								<td>
-									<?= $user->password ?>
-								</td>
+									<?= $user->rol ?>
+								</td> <!-- Mostrar el rol en lugar de la contraseña -->
 
 								<!-- botones de acción -->
 								<td>
 									<!-- botón eliminar -->
 									<a href="<?= URL ?>users/delete/<?= $user->id ?>" title="Eliminar"
-										<?= (!in_array($_SESSION['id_rol'], $GLOBALS['user']['delete'])) ? 'disabled' : '' ?>"
-										onclick="return confirm('Confirmar eliminación del user')">
-										<i class="bi bi-trash"></i>
+										onclick="return confirm('Confirme la eliminación del usuario')">
+										<i class="bi bi-trash-fill"></i>
 									</a>
 
 									<!-- botón editar -->
-									<a href="<?= URL ?>users/edit/<?= $user->id ?>" title="Editar"
-										<?= (!in_array($_SESSION['id_rol'], $GLOBALS['user']['edit'])) ? 'disabled' : '' ?>">
+									<a href="<?= URL ?>users/edit/<?= $user->id ?>" title="Editar">
 										<i class="bi bi-pencil-square"></i>
 									</a>
 
 									<!-- botón mostrar -->
-									<a href="<?= URL ?>users/show/<?= $user->id ?>" title="Mostrar"
-										<?= (!in_array($_SESSION['id_rol'], $GLOBALS['user']['show'])) ? 'disabled' : '' ?>">
+									<a href="<?= URL ?>users/show/<?= $user->id ?>" title="Mostrar">
 										<i class="bi bi-card-text"></i>
 									</a>
-
-									
 								</td>
 							</tr>
-
 						<?php endforeach; ?>
-
-
 					</tbody>
 
 				</table>

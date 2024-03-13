@@ -32,82 +32,110 @@ class Movimientos extends Controller
     }
 
     function new($param = [])
-    {
-        // Iniciar sesión
-        session_start();
+{
+    // Iniciar sesión
+    session_start();
 
-       
+    // Etiqueta title de la vista
+    $this->view->title = "Añadir Movimiento";
 
-        // Etiqueta title de la vista
-        $this->view->title = "Añadir Movimiento";
+    // Obtener el modelo de cuentas
+    $cuentaModel = new cuentasModel();
+    $cuentasDisponibles = $cuentaModel->get();
 
-        $cuentaModel = new cuentasModel();
-        $cuentasDisponibles = $cuentaModel->get();
+    // Crear un array de cuentas para el formulario
+    $listaCuentas = [];
+    foreach ($cuentasDisponibles as $cuenta) {
+        $nombreCompleto = $cuenta->num_cuenta;
+        $listaCuentas[$cuenta->id] = $nombreCompleto;
+    }
 
+    // Comprobar si vuelvo de un registro no validado
+    if (isset($_SESSION['error'])) {
+        // Mensaje de error
+        $this->view->error = $_SESSION['error'];
 
-        $listaCuentas = [];
-        foreach ($cuentasDisponibles as $cuenta) {
-            $nombreCompleto = $cuenta->num_cuenta;
-            $listaCuentas[$cuenta->id] = $nombreCompleto;
-        }
-        // Comprobar si vuelvo de un registro no validado
-        if (isset($_SESSION['error'])) {
-            // Mensaje de error
-            $this->view->error = $_SESSION['error'];
+        // Autorrellenar el formulario con los detalles del movimiento
+        $this->view->movimiento = unserialize($_SESSION['movimiento']);
 
-            // Autorrellenar el formulario con los detalles del movimiento
-            $this->view->movimiento = unserialize($_SESSION['movimiento']);
-
-            // Recupero array de errores específicos
+        // Recupero array de errores específicos
+        // Aquí es donde se debería inicializar la variable errores
+        // Verifica que $_SESSION['errores'] esté definido antes de asignarlo a $this->view->errores
+        if (isset($_SESSION['errores'])) {
             $this->view->errores = $_SESSION['errores'];
-
-            unset($_SESSION['error']);
-            unset($_SESSION['errores']);
-            unset($_SESSION['movimiento']);
+        } else {
+            // Si $_SESSION['errores'] no está definido, inicialízalo como un array vacío
+            $this->view->errores = [];
         }
-        $this->view->cuentas = $listaCuentas;
-        // Cargo la vista con el formulario para un nuevo movimiento
-        $this->view->render('movimientos/new/index');
+
+        unset($_SESSION['error']);
+        unset($_SESSION['errores']);
+        unset($_SESSION['movimiento']);
     }
 
-    function create($param = [])
-    {
-        // Iniciar sesión
-        session_start();
+    // Asignar la lista de cuentas a la vista
+    $this->view->cuentas = $listaCuentas;
 
-        // Saneamos los datos del formulario
-        // Ajusta los nombres de los campos según corresponda
-        $id_cuenta = filter_input(INPUT_POST, 'id_cuenta', FILTER_SANITIZE_NUMBER_INT);
-        $fecha_hora = filter_input(INPUT_POST, 'fecha_hora', FILTER_SANITIZE_SPECIAL_CHARS);
-        $concepto = filter_input(INPUT_POST, 'concepto', FILTER_SANITIZE_SPECIAL_CHARS);
-        $tipo = filter_input(INPUT_POST, 'tipo', FILTER_SANITIZE_SPECIAL_CHARS);
-        $cantidad = filter_input(INPUT_POST, 'cantidad', FILTER_SANITIZE_NUMBER_FLOAT);
-        $saldo = filter_input(INPUT_POST, 'saldo', FILTER_SANITIZE_NUMBER_FLOAT);
-        $create_at = filter_input(INPUT_POST, 'create_at', FILTER_SANITIZE_SPECIAL_CHARS);
-        $update_at = filter_input(INPUT_POST, 'update_at', FILTER_SANITIZE_SPECIAL_CHARS);
+    // Cargar la vista con el formulario para un nuevo movimiento
+    $this->view->render('movimientos/new/index');
+}
 
-        // Creo un objeto Movimiento con los datos recibidos
-        $movimiento = new Movimiento(
-            null,
-            $id_cuenta,
-            $fecha_hora,
-            $concepto,
-            $tipo,
-            $cantidad,
-            $saldo,
-            $create_at,
-            $update_at
-        );
+function create($param = [])
+{
+    // Iniciar sesión
+    session_start();
 
-        // Validación (si es necesario)
-        // Ajusta la validación según corresponda
-
-        // Añadir el movimiento a la base de datos
-        $this->model->create($movimiento);
-
-        // Redirigir al main de movimientos
-        header('Location: ' . URL . 'movimientos');
+    if (isset($_SESSION['mensaje'])) {
+        $this->view->mensaje = $_SESSION['mensaje'];
+        unset($_SESSION['mensaje']);
     }
+
+    // Saneamos los datos del formulario
+    // Ajusta los nombres de los campos según corresponda
+    $id_cuenta = filter_input(INPUT_POST, 'id_cuenta', FILTER_SANITIZE_NUMBER_INT);
+    $fecha_hora = filter_input(INPUT_POST, 'fecha_hora', FILTER_SANITIZE_SPECIAL_CHARS);
+    $concepto = filter_input(INPUT_POST, 'concepto', FILTER_SANITIZE_SPECIAL_CHARS);
+    $tipo = filter_input(INPUT_POST, 'tipo', FILTER_SANITIZE_SPECIAL_CHARS);
+    $cantidad = filter_input(INPUT_POST, 'cantidad', FILTER_SANITIZE_NUMBER_FLOAT);
+    $saldo = filter_input(INPUT_POST, 'saldo', FILTER_SANITIZE_NUMBER_FLOAT);
+    $create_at = filter_input(INPUT_POST, 'create_at', FILTER_SANITIZE_SPECIAL_CHARS);
+    $update_at = filter_input(INPUT_POST, 'update_at', FILTER_SANITIZE_SPECIAL_CHARS);
+
+    // Validar que el tipo de movimiento sea 'R' (reintegro) y que la cantidad no supere el saldo actual
+    if ($tipo === 'R') {
+        // Obtener el saldo actual de la cuenta
+        $saldoActual = $this->model->getSaldoActualCuenta($id_cuenta);
+
+        // Verificar que la cantidad del reintegro no supere el saldo actual
+        if ($cantidad > $saldoActual) {
+            // Si la cantidad del reintegro es mayor que el saldo actual, mostrar un mensaje de error
+            $_SESSION['error'] = "La cantidad del reintegro supera el saldo actual de la cuenta.";
+            // Redirigir de vuelta al formulario de creación de movimiento
+            header('Location: ' . URL . 'movimientos/new');
+            exit(); // Detener la ejecución del script
+        }
+    }
+
+    // Creo un objeto Movimiento con los datos recibidos
+    $movimiento = new Movimiento(
+        null,
+        $id_cuenta,
+        $fecha_hora,
+        $concepto,
+        $tipo,
+        $cantidad,
+        $saldo,
+        $create_at,
+        $update_at
+    );
+
+    // Añadir el movimiento a la base de datos
+    $this->model->create($movimiento);
+
+    // Redirigir al main de movimientos
+    header('Location: ' . URL . 'movimientos');
+}
+
 
     function edit($param = [])
     {

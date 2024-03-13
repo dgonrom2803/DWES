@@ -164,42 +164,39 @@ class Users extends Controller
 
 
     function update($param = [])
-    {
+{
+    session_start();
 
-        session_start();
-
-        if (!isset($_SESSION['id'])) {
-            $_SESSION['mensaje'] = "Usuario no autentificado";
-
-            header("location:" . URL . "login");
-        } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['user']['edit']))) {
-            $_SESSION['mensaje'] = "Operación sin privilegios";
-            header('location:' . URL . 'users');
-        }
-
-        $id = $param[0];
-
-        $nombre = isset($_POST['nombre']) ? filter_var($_POST['nombre'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
-        $email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_SANITIZE_EMAIL) : '';
-        $password = $_POST['password'] ?? '';
-        $rol = isset($_POST['rol']) ? filter_var($_POST['rol'], FILTER_SANITIZE_NUMBER_INT) : '';
-
-
-        $user = new classUser(
-            null,
-            $nombre,
-            $email,
-            $password,
-            $rol
-        );
-
-        $this->model->update($id, $user);
-
-        $_SESSION['mensaje'] = 'Usuario actualizado correctamente';
-
-        header("Location:" . URL . "users");
-
+    if (!isset($_SESSION['id'])) {
+        $_SESSION['mensaje'] = "Usuario no autentificado";
+        header("location:" . URL . "login");
+    } else if ((!in_array($_SESSION['id_rol'], $GLOBALS['user']['edit']))) {
+        $_SESSION['mensaje'] = "Operación sin privilegios";
+        header('location:' . URL . 'users');
     }
+
+    $id = $param[0];
+
+    $nombre = isset($_POST['name']) ? filter_var($_POST['name'], FILTER_SANITIZE_SPECIAL_CHARS) : '';
+    $email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_SANITIZE_EMAIL) : '';
+    $rol = isset($_POST['rol']) ? filter_var($_POST['rol'], FILTER_SANITIZE_NUMBER_INT) : '';
+
+    $user = new classUser(
+        null,
+        $nombre,
+        $email,
+        null, // No se está editando la contraseña, por lo que se pasa como null
+        $rol
+    );
+
+    // Agregar el parámetro $rol al llamar al método update
+    $this->model->update($id, $user, $rol);
+
+    $_SESSION['mensaje'] = 'Usuario actualizado correctamente';
+
+    header("Location:" . URL . "users");
+}
+
 
     function show($param = [])
     {

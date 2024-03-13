@@ -51,10 +51,11 @@
 								<th>Titulo</th>
 								<th>Descripción</th>
 								<th>Autor</th>
+								<th>Lugar</th>
 								<th>Fecha</th>
 								<th>Categoría</th>
 								<th>Etiquetas</th>
-								<th>Carpeta</th>
+								<th>Carpetas</th>
 								<th>Acciones</th>
 							</tr>
 						</thead>
@@ -63,13 +64,9 @@
 
 							<!-- Objeto clase pdostatement en foreach -->
 							<?php foreach ($this->albumes as $album): ?>
-								
-								<?php require_once("template/partials/modal.php") ?>
-
+								<?php require('template/partials/modal.php'); ?>
 								<tr>
-									<!-- Formatos distintos para cada  columna -->
-
-									<!-- Detalles de alumnos -->
+									<!-- Detalles de albumes -->
 									<td>
 										<?= $album->id ?>
 									</td>
@@ -81,6 +78,9 @@
 									</td>
 									<td>
 										<?= $album->autor ?>
+									</td>
+									<td>
+										<?= $album->lugar ?>
 									</td>
 									<td>
 										<?= $album->fecha ?>
@@ -100,29 +100,30 @@
 									<td>
 										<!-- botón  eliminar -->
 										<a href="<?= URL ?>album/delete/<?= $album->id ?>" title="Eliminar"
-											onclick="return confirm('Confimar elimación del album')" Class="btn btn-danger
+											onclick="return confirm('Confimar elimación del album')" 
 											<?= (!in_array($_SESSION['id_rol'], $GLOBALS['album']['delete'])) ?
 												'disabled' : null ?>">
 											<i class="bi bi-trash"></i>
 										</a>
 
 										<!-- botón  editar -->
-										<a href="<?= URL ?>album/edit/<?= $album->id ?>" title="Editar" class="btn btn-primary
+										<a href="<?= URL ?>album/edit/<?= $album->id ?>" title="Editar" 
 											<?= (!in_array($_SESSION['id_rol'], $GLOBALS['album']['edit'])) ?
 												'disabled' : null ?>">
 											<i class="bi bi-pencil"></i>
 										</a>
 
 										<!-- botón  mostrar -->
-										<a href="<?= URL ?>album/show/<?= $album->id ?> ?>" title="Mostrar" class="btn btn-warning
+										<a href="<?= URL ?>album/show/<?= $album->id ?> ?>" title="Mostrar" 
 											<?= (!in_array($_SESSION['id_rol'], $GLOBALS['album']['show'])) ?
 												'disabled' : null ?>">
 											<i class="bi bi-card-text"></i>
 										</a>
 										<!-- botón  subir imagen -->
-										<a href="#" title="Subir " data-bs-toggle="modal"
-											data-bs-target="#subir<?= $album->id ?>" class="btn btn-success"
-											<?= (!in_array($_SESSION['id_rol'], $GLOBALS['album']['modal'])) ? 'disabled' : null ?>><i class="bi bi-cloud-upload-fill"></i>
+										<a href="#" title="Subir" data-bs-toggle="modal"
+											data-bs-target="#add<?= $album->id ?>"  <?= (!in_array($_SESSION['id_rol'], $GLOBALS['album']['add'])) ?
+											  	'disabled' : null ?> ">
+											<i class="bi bi-image"></i>
 										</a>
 									</td>
 								</tr>

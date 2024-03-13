@@ -16,7 +16,6 @@
         # Definir privilegios como variables golbales
 
     */
-
     $GLOBALS['album']['main'] = [1, 2, 3];
     $GLOBALS['album']['new'] = [1, 2];
     $GLOBALS['album']['edit'] = [1, 2];
@@ -24,6 +23,6 @@
     $GLOBALS['album']['show'] = [1, 2, 3];
     $GLOBALS['album']['filter'] = [1, 2, 3];
     $GLOBALS['album']['order'] = [1, 2, 3];
-    $GLOBALS['album']['modal'] = [1, 2, 3];
+    $GLOBALS['album']['add'] = [1, 2,3];
 
 

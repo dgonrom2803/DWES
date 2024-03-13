@@ -22,6 +22,7 @@
 
         <!-- Formulario Nuevo Movimiento -->
         <form action="<?= URL ?>movimientos/create" method="POST">
+        <?php require_once("template/partials/notify.php") ?>
 
             <!-- Id_cuenta -->
             <div class="mb-3">

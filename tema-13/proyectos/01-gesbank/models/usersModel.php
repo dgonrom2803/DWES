@@ -24,42 +24,26 @@ class usersModel extends Model
     {
 
         try {
-
-            # comando sql
             $sql = "SELECT 
                         users.id,
                         users.name,
                         users.email,
-                        users.password
+                        roles.name AS rol  -- Cambiado para obtener el nombre del rol en lugar de la contraseña
                     FROM
                         users
+                    INNER JOIN roles_users ON users.id = roles_users.user_id
+                    INNER JOIN roles ON roles_users.role_id = roles.id
                     ORDER BY 
-                        id";
-
-            # conectamos con la base de datos
-
-            // $this->db es un objeto de la clase database
-            // ejecuto el método connect de esa clase
+                        users.id";
 
             $conexion = $this->db->connect();
-
-            # ejecutamos mediante prepare
             $pdost = $conexion->prepare($sql);
-
-            # establecemos  tipo fetch
             $pdost->setFetchMode(PDO::FETCH_OBJ);
-
-            #  ejecutamos 
             $pdost->execute();
-
-            # devuelvo objeto pdostatement
             return $pdost;
-
         } catch (PDOException $e) {
-
             include_once('template/partials/errorDB.php');
             exit();
-
         }
     }
 
@@ -69,14 +53,16 @@ class usersModel extends Model
 
         try {
             $sql = "SELECT 
-                        users.id,
-                        users.name,
-                        users.email,
-                        users.password                        
-                    FROM 
-                        users
-                    WHERE
-                        users.id = :id";
+            users.id,
+            users.name,
+            users.email,
+            roles.name AS rol
+        FROM 
+            users
+        INNER JOIN roles_users ON users.id = roles_users.user_id
+        INNER JOIN roles ON roles_users.role_id = roles.id
+        WHERE
+            users.id = :id";
 
             # Conectar con la base de datos
             $conexion = $this->db->connect();
@@ -97,46 +83,46 @@ class usersModel extends Model
 
     }
 
-    public function update(int $id, classUser $user, int $rol)
-    {
-        try {
-            $sql = "UPDATE users
-                    SET
-                        name = :name,
-                        email = :email,
-                        password = :password
-                    WHERE
-                        id = :id
-                    LIMIT 1";
+    public function update($id, $user, $rol)
+{
+    try {
+        $sql = "UPDATE users
+                SET
+                    name = :name,
+                    email = :email
+                WHERE
+                    id = :id
+                LIMIT 1";
 
-            $conexion = $this->db->connect();
-            $pdoSt = $conexion->prepare($sql);
+        $conexion = $this->db->connect();
+        $pdoSt = $conexion->prepare($sql);
 
-            $pdoSt->bindParam(':id', $id, PDO::PARAM_INT);
-            $pdoSt->bindParam(':name', $user->name, PDO::PARAM_STR, 50);
-            $pdoSt->bindParam(':email', $user->email, PDO::PARAM_STR, 50);
-            $pdoSt->bindParam(':password', $user->password, PDO::PARAM_STR, 60);
+        $pdoSt->bindParam(':id', $id, PDO::PARAM_INT);
+        $pdoSt->bindParam(':name', $user->name, PDO::PARAM_STR, 50);
+        $pdoSt->bindParam(':email', $user->email, PDO::PARAM_STR, 50);
 
-            $pdoSt->execute();
+        $pdoSt->execute();
 
-            // Actualizar el rol del usuario
-            $sqlRol = "UPDATE
-                            roles_users
-                        SET 
-                            role_id = :rol
-                        WHERE 
-                            user_id = :id";
+        // Actualizar el rol del usuario
+        $sqlRol = "UPDATE
+                        roles_users
+                    SET 
+                        role_id = :rol
+                    WHERE 
+                        user_id = :id";
 
-            $stmtRol = $conexion->prepare($sqlRol);
-            $stmtRol->bindParam(':rol', $rol);
-            $stmtRol->bindParam(':id', $id);
-            $stmtRol->execute();
+        $stmtRol = $conexion->prepare($sqlRol);
+        $stmtRol->bindParam(':rol', $rol);
+        $stmtRol->bindParam(':id', $id);
+        $stmtRol->execute();
 
-        } catch (PDOException $e) {
-            include_once('template/partials/errorDB.php');
-            exit();
-        }
+    } catch (PDOException $e) {
+        include_once('template/partials/errorDB.php');
+        exit();
     }
+}
+
+
 
 
     public function order(int $criterio)
@@ -145,14 +131,16 @@ class usersModel extends Model
 
             # comando sql
             $sql = "SELECT 
-                        users.id,
-                        users.name,
-                        users.email,
-                        users.password
-                    FROM
-                        users
-                    ORDER BY 
-                        :criterio";
+                    users.id,
+                    users.name,
+                    users.email,
+                    roles.name AS rol
+                FROM
+                    users
+                INNER JOIN roles_users ON users.id = roles_users.user_id
+                INNER JOIN roles ON roles_users.role_id = roles.id
+                ORDER BY 
+                    :criterio";
 
             $conexion = $this->db->connect();
 
@@ -182,22 +170,24 @@ class usersModel extends Model
     {
         try {
             $sql = "SELECT 
-                        users.id,
-                        users.name,
-                        users.email,
-                        users.password
-                    FROM
-                        users
-                    WHERE
-                        CONCAT_WS(', ', 
-                                users.id,
-                                users.name,
-                                users.email,
-                                users.password) 
-                        LIKE :expresion
-                    ORDER BY 
-                        users.id
-                    ";
+                    users.id,
+                    users.name,
+                    users.email,
+                    roles.name AS rol
+                FROM
+                    users
+                INNER JOIN roles_users ON users.id = roles_users.user_id
+                INNER JOIN roles ON roles_users.role_id = roles.id
+                WHERE
+                    CONCAT_WS(', ', 
+                            users.id,
+                            users.name,
+                            users.email,
+                            roles.name) 
+                    LIKE :expresion
+                ORDER BY 
+                    users.id";
+
 
             # Conectar con la base de datos
             $conexion = $this->db->connect();

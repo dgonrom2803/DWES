@@ -110,61 +110,74 @@ class movimientosModel extends Model
         }
     }
     public function create(Movimiento $movimiento)
-    {
-        try {
-            // Obtener el saldo actual de la cuenta
-            $saldoActual = $this->getSaldoActualCuenta($movimiento->id_cuenta);
-    
-            // Calcular el nuevo saldo
-            $nuevoSaldo = $this->calcularNuevoSaldo($saldoActual, $movimiento);
-    
-            // Insertar el nuevo movimiento
-            $sql = "INSERT INTO Movimientos (
-                        id_cuenta,
-                        fecha_hora,
-                        concepto,
-                        tipo,
-                        cantidad,
-                        saldo,
-                        create_at,
-                        update_at
-                    )
-                    VALUES (
-                        :id_cuenta,
-                        :fecha_hora,
-                        :concepto,
-                        :tipo,
-                        :cantidad,
-                        :saldo,
-                        :create_at,
-                        :update_at
-                    )
-                ";
-            // Conectar con la base de datos
-            $conexion = $this->db->connect();
-            $pdoSt = $conexion->prepare($sql);
-    
-            $pdoSt->bindParam(':id_cuenta', $movimiento->id_cuenta, PDO::PARAM_INT);
-            $pdoSt->bindParam(':fecha_hora', $movimiento->fecha_hora, PDO::PARAM_STR);
-            $pdoSt->bindParam(':concepto', $movimiento->concepto, PDO::PARAM_STR);
-            $pdoSt->bindParam(':tipo', $movimiento->tipo, PDO::PARAM_STR);
-            $pdoSt->bindParam(':cantidad', $movimiento->cantidad, PDO::PARAM_STR);
-            $pdoSt->bindParam(':saldo', $nuevoSaldo, PDO::PARAM_STR);
-            $pdoSt->bindParam(':create_at', $movimiento->create_at, PDO::PARAM_STR);
-            $pdoSt->bindParam(':update_at', $movimiento->update_at, PDO::PARAM_STR);
-    
-            $pdoSt->execute();
-    
-            // Actualizar el saldo de la cuenta
-            $this->actualizarSaldoCuenta($movimiento->id_cuenta, $nuevoSaldo);
-    
-        } catch (PDOException $e) {
-            include_once('template/partials/errorDB.php');
-            exit();
+{
+    try {
+        // Obtener el saldo actual de la cuenta
+        $saldoActual = $this->getSaldoActualCuenta($movimiento->id_cuenta);
+
+        // Verificar si es un reintegro y si la cantidad excede el saldo actual
+        if ($movimiento->tipo === 'R' && $movimiento->cantidad > $saldoActual) {
+            // Si la cantidad del reintegro es mayor que el saldo actual, devuelve un mensaje de error
+            throw new Exception("El reintegro no puede ser mayor que el saldo actual de la cuenta");
         }
+
+        // Calcular el nuevo saldo
+        $nuevoSaldo = $this->calcularNuevoSaldo($saldoActual, $movimiento);
+
+        // Insertar el nuevo movimiento
+        $sql = "INSERT INTO Movimientos (
+                    id_cuenta,
+                    fecha_hora,
+                    concepto,
+                    tipo,
+                    cantidad,
+                    saldo,
+                    create_at,
+                    update_at
+                )
+                VALUES (
+                    :id_cuenta,
+                    :fecha_hora,
+                    :concepto,
+                    :tipo,
+                    :cantidad,
+                    :saldo,
+                    :create_at,
+                    :update_at
+                )
+            ";
+        // Conectar con la base de datos
+        $conexion = $this->db->connect();
+        $pdoSt = $conexion->prepare($sql);
+
+        $pdoSt->bindParam(':id_cuenta', $movimiento->id_cuenta, PDO::PARAM_INT);
+        $pdoSt->bindParam(':fecha_hora', $movimiento->fecha_hora, PDO::PARAM_STR);
+        $pdoSt->bindParam(':concepto', $movimiento->concepto, PDO::PARAM_STR);
+        $pdoSt->bindParam(':tipo', $movimiento->tipo, PDO::PARAM_STR);
+        $pdoSt->bindParam(':cantidad', $movimiento->cantidad, PDO::PARAM_STR);
+        $pdoSt->bindParam(':saldo', $nuevoSaldo, PDO::PARAM_STR);
+        $pdoSt->bindParam(':create_at', $movimiento->create_at, PDO::PARAM_STR);
+        $pdoSt->bindParam(':update_at', $movimiento->update_at, PDO::PARAM_STR);
+
+        $pdoSt->execute();
+
+        // Actualizar el saldo de la cuenta
+        $this->actualizarSaldoCuenta($movimiento->id_cuenta, $nuevoSaldo);
+
+    } catch (PDOException $e) {
+        include_once('template/partials/errorDB.php');
+        exit();
+    } catch (Exception $e) {
+        // Captura la excepción de validación y muestra un mensaje de error al usuario
+        $_SESSION['error'] = $e->getMessage();
+        $_SESSION['movimiento'] = serialize($movimiento);
+        header('Location: ' . URL . 'movimientos/new');
+        exit();
     }
+}
+
     
-    private function getSaldoActualCuenta($id_cuenta)
+     function getSaldoActualCuenta($id_cuenta)
     {
         // Comando SQL para obtener el saldo actual de la cuenta
         $sql = "SELECT saldo FROM cuentas WHERE id = :id_cuenta";
@@ -181,7 +194,7 @@ class movimientosModel extends Model
         return $resultado['saldo'];
     }
     
-    private function calcularNuevoSaldo($saldoActual, $movimiento)
+    function calcularNuevoSaldo($saldoActual, $movimiento)
     {
         // Calcular el nuevo saldo basado en el tipo de movimiento
         if ($movimiento->tipo === 'I') {
@@ -196,7 +209,7 @@ class movimientosModel extends Model
         }
     }
     
-    private function actualizarSaldoCuenta($id_cuenta, $nuevoSaldo)
+    function actualizarSaldoCuenta($id_cuenta, $nuevoSaldo)
     {
         // Comando SQL para actualizar el saldo de la cuenta
         $sql = "UPDATE cuentas SET saldo = :nuevo_saldo WHERE id = :id_cuenta";

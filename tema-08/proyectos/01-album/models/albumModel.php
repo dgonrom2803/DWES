@@ -1,161 +1,293 @@
 <?php
 
+/*
+    albumModel.php
+
+    Modelo del  controlador albumes
+
+    Definir los métodos de acceso a la base de datos
+    
+    - insert
+    - update
+    - select
+    - delete
+    - etc..
+*/
+
 class albumModel extends Model
 {
+
+    /*
+        Extrae los detalles  de los albumes
+    */
     public function get()
     {
+
         try {
 
-            $sql = "SELECT 
-                                        *
-                                FROM
-                                        albumes
-                                ORDER BY
-                                        albumes.id
-                                ";
+            # comando sql
+            $sql = "SELECT albumes.id, 
+                           albumes.titulo,
+                           albumes.descripcion, 
+                           albumes.autor,
+                           albumes.fecha, 
+                           albumes.lugar, 
+                           albumes.categoria, 
+                           albumes.etiquetas,
+                           albumes.carpeta 
+                    FROM albumes";
+
+            # conectamos con la base de datos
+
+            // $this->db es un objeto de la clase database
+            // ejecuto el método connect de esa clase
 
             $conexion = $this->db->connect();
 
-            $pdoSt = $conexion->prepare($sql);
-            
-            //Forma de objeto
-            $pdoSt->setFetchMode(PDO::FETCH_OBJ);
-        
-            $pdoSt->execute();
-            return $pdoSt;
+            # ejecutamos mediante prepare
+            $pdost = $conexion->prepare($sql);
 
+            # establecemos  tipo fetch
+            $pdost->setFetchMode(PDO::FETCH_OBJ);
+
+            #  ejecutamos 
+            $pdost->execute();
+
+            # devuelvo objeto pdostatement
+            return $pdost;
 
         } catch (PDOException $e) {
 
-            include "template/partials/errorDB.php";
-            // Para cortar la conexión.
+            include_once('template/partials/errorDB.php');
             exit();
 
         }
-
     }
+
 
     public function create(classAlbum $album)
     {
-        try {
 
-            $sql = "
-                        INSERT INTO albumes (
-                            titulo,
-                            descripcion,
-                            autor,
-                            fecha,
-                            lugar,
-                            categoria,
-                            etiquetas,
-                            carpeta,
-                            created_at
-                        )
-                        VALUES (
-                            :titulo,
-                            :descripcion,
-                            :autor,
-                            :fecha,
-                            :lugar,
-                            :categoria,
-                            :etiquetas,
-                            :carpeta,
-                            NOW()
-                        )
-                ";
+        try {
+            $sql = "INSERT INTO 
+                        albumes 
+                    VALUES (
+                                null,
+                                :titulo,
+                                :descripcion,
+                                :autor, 
+                                :fecha,
+                                :lugar,
+                                :categoria,
+                                :etiquetas,
+                                0,
+                                0,
+                                :carpeta,
+                                null,
+                                null
+                                )
+                        ";
+
+            # Conectar con la base de datos
             $conexion = $this->db->connect();
 
             $pdoSt = $conexion->prepare($sql);
 
             $pdoSt->bindParam(':titulo', $album->titulo, PDO::PARAM_STR, 100);
-            $pdoSt->bindParam(':descripcion', $album->descripcion, PDO::PARAM_STR);
+            $pdoSt->bindParam(':descripcion', $album->descripcion, PDO::PARAM_STR, 50);
             $pdoSt->bindParam(':autor', $album->autor, PDO::PARAM_STR, 50);
-            $pdoSt->bindParam(':fecha', $album->fecha);
-            $pdoSt->bindParam(':lugar', $album->lugar, PDO::PARAM_STR, 50);
+            $pdoSt->bindParam(':fecha', $album->fecha, PDO::PARAM_STR, 30);
+            $pdoSt->bindParam(':lugar', $album->lugar, PDO::PARAM_STR, 30);
             $pdoSt->bindParam(':categoria', $album->categoria, PDO::PARAM_STR, 50);
-            $pdoSt->bindParam(':etiquetas', $album->etiquetas, PDO::PARAM_STR, 250);
-            $pdoSt->bindParam(':carpeta', $album->carpeta, PDO::PARAM_STR, 50);
-       
+            $pdoSt->bindParam(':etiquetas', $album->etiquetas, PDO::PARAM_STR, 100);
+            $pdoSt->bindParam(':carpeta', $album->carpeta, PDO::PARAM_STR);
+
+
             $pdoSt->execute();
 
         } catch (PDOException $e) {
-
-            include "template/partials/errordb.php";
-            // Para cortar la conexión.
+            include_once('template/partials/errorDB.php');
             exit();
-
         }
 
     }
 
     public function read($id)
     {
+
+        try {
+            $sql = "SELECT 
+                                id,
+                                titulo, 
+                                descripcion,
+                                autor,
+                                fecha,
+                                lugar,
+                                categoria,
+                                etiquetas,
+                                carpeta
+                        FROM 
+                                albumes
+                        WHERE
+                                id = :id";
+
+            # Conectar con la base de datos
+            $conexion = $this->db->connect();
+
+
+            $pdoSt = $conexion->prepare($sql);
+
+            $pdoSt->bindParam(':id', $id, PDO::PARAM_INT);
+            $pdoSt->setFetchMode(PDO::FETCH_OBJ);
+            $pdoSt->execute();
+
+            return $pdoSt->fetch();
+
+        } catch (PDOException $e) {
+            include_once('template/partials/errorDB.php');
+            exit();
+        }
+
+    }
+
+    public function update(classAlbum $album, $id)
+    {
+
         try {
 
-            $sql = "SELECT *
-
-                                FROM albumes
-                                WHERE id = :id 
-                                ";
+            $sql = "UPDATE albumes
+                    SET
+                            titulo = :titulo,
+                            descripcion = :descripcion,
+                            autor = :autor,
+                            fecha = :fecha,
+                            lugar = :lugar,
+                            categoria = :categoria,
+                            etiquetas = :etiquetas,
+                            carpeta = :carpeta
+                    WHERE
+                            id = :id
+                    LIMIT 1";
 
             $conexion = $this->db->connect();
 
             $pdoSt = $conexion->prepare($sql);
-            $pdoSt->bindParam(':id', $id, PDO::PARAM_INT);
-            //Forma de objeto
-            $pdoSt->setFetchMode(PDO::FETCH_OBJ);
-            
-            $pdoSt->execute();
-            return $pdoSt->fetch();
 
+            $pdoSt->bindParam(':id', $id, PDO::PARAM_INT);
+            $pdoSt->bindParam(':titulo', $album->titulo, PDO::PARAM_STR, 30);
+            $pdoSt->bindParam(':descripcion', $album->descripcion, PDO::PARAM_STR, 50);
+            $pdoSt->bindParam(':autor', $album->autor, PDO::PARAM_STR, 50);
+            $pdoSt->bindParam(':fecha', $album->fecha, PDO::PARAM_STR, 9);
+            $pdoSt->bindParam(':lugar', $album->lugar, PDO::PARAM_STR, 30);
+            $pdoSt->bindParam(':categoria', $album->categoria, PDO::PARAM_STR, 9);
+            $pdoSt->bindParam(':etiquetas', $album->etiquetas);
+            $pdoSt->bindParam(':carpeta', $album->carpeta, PDO::PARAM_INT);
+
+            $pdoSt->execute();
+
+        } catch (PDOException $e) {
+            include_once('template/partials/errorDB.php');
+            exit();
+        }
+
+    }
+
+    /*
+       Extrae los detalles  de los albumes
+   */
+    public function order(int $criterio)
+    {
+
+        try {
+
+            # comando sql
+            $sql = "SELECT 
+                        albumes.id,
+                        albumes.titulo,
+                        albumes.descripcion,
+                        albumes.autor,
+                        albumes.fecha,
+                        albumes.lugar,
+                        albumes.categoria,
+                        albumes.etiquetas
+                    FROM
+                        albumes
+                    ORDER BY 
+                        :criterio";
+
+            # conectamos con la base de datos
+
+            // $this->db es un objeto de la clase database
+            // ejecuto el método connect de esa clase
+
+            $conexion = $this->db->connect();
+
+            # ejecutamos mediante prepare
+            $pdost = $conexion->prepare($sql);
+
+            $pdost->bindParam(':criterio', $criterio, PDO::PARAM_INT);
+
+            # establecemos  tipo fetch
+            $pdost->setFetchMode(PDO::FETCH_OBJ);
+
+            #  ejecutamos 
+            $pdost->execute();
+
+            # devuelvo objeto pdostatement
+            return $pdost;
 
         } catch (PDOException $e) {
 
-            include "template/partials/errorDB.php";
-            // Para cortar la conexión.
+            include_once('template/partials/errorDB.php');
             exit();
 
         }
     }
-    public function update(classAlbum $album, int $id)
+
+    public function filter($expresion)
     {
         try {
+            $sql = "SELECT 
+                        albumes.id,
+                        albumes.titulo,
+                        albumes.descripcion,
+                        albumes.autor,
+                        albumes.fecha,
+                        albumes.lugar,
+                        albumes.categoria,
+                        albumes.etiquetas,
+                        albumes.carpeta
+                    FROM
+                        albumes
+                    WHERE
+                    CONCAT_WS(  ', ', 
+                                albumes.id,
+                                albumes.titulo,
+                                albumes.descripcion,
+                                albumes.autor,
+                                albumes.fecha,
+                                albumes.lugar,
+                                albumes.categoria,
+                                albumes.etiquetas,
+                                albumes.carpeta
+                                ) 
+                    like :expresion
+                ORDER BY 
+                    albumes.id";
 
-            $sql = "UPDATE albumes 
-                        SET
-                                titulo = :titulo,
-                                descripcion = :descripcion,
-                                autor = :autor, 
-                                fecha = :fecha,
-                                lugar = :lugar,
-                                categoria = :categoria,
-                                etiquetas = :etiquetas,
-                                carpeta = :carpeta
-
-
-                        WHERE id = :id
-                        LIMIT 1";
-
+            # Conectar con la base de datos
             $conexion = $this->db->connect();
 
-            $pdoSt = $conexion->prepare($sql);
+            $pdost = $conexion->prepare($sql);
 
-            $pdoSt->bindParam(':id', $id, PDO::PARAM_INT);
-            $pdoSt->bindParam(':titulo', $album->titulo, PDO::PARAM_STR, 100);
-            $pdoSt->bindParam(':descripcion', $album->descripcion, PDO::PARAM_STR);
-            $pdoSt->bindParam(':autor', $album->autor, PDO::PARAM_STR, 50);
-            $pdoSt->bindParam(':fecha', $album->fecha);
-            $pdoSt->bindParam(':lugar', $album->lugar, PDO::PARAM_STR, 50);
-            $pdoSt->bindParam(':categoria', $album->categoria, PDO::PARAM_STR, 50);
-            $pdoSt->bindParam(':etiquetas', $album->etiquetas, PDO::PARAM_STR, 250);
-            $pdoSt->bindParam(':carpeta', $album->carpeta, PDO::PARAM_STR, 50);
-           
-            $pdoSt->execute();
+            $pdost->bindValue(':expresion', '%' . $expresion . '%', PDO::PARAM_STR);
+            $pdost->setFetchMode(PDO::FETCH_OBJ);
+            $pdost->execute();
+            return $pdost;
 
         } catch (PDOException $e) {
 
-            include "template/partials/errorDB.php";
-            // Para cortar la conexión.
+            include_once('template/partials/errorDB.php');
             exit();
 
         }
@@ -167,190 +299,77 @@ class albumModel extends Model
         try {
 
             $sql = "DELETE
-                        FROM albumes
-                        WHERE id = :id
-                        LIMIT 1";
+                    FROM albumes
+                    WHERE id = :id
+                    LIMIT 1";
 
             $conexion = $this->db->connect();
 
             $pdoSt = $conexion->prepare($sql);
             $pdoSt->bindParam(':id', $id, PDO::PARAM_INT);
-            
             $pdoSt->execute();
 
         } catch (PDOException $e) {
-
-            include "template/partials/errorDB.php";
-            // Para cortar la conexión.
+            include "template/partials/errordb.php";
             exit();
-
         }
     }
-    public function order(int $criterio)
+
+    public function upload($ficheros, $carpeta)
     {
 
-        try {
+        // Usamos el mismo método usado en el repositorio "02-subida"
 
-            # comando sql
-            $sql = "
-                SELECT 
-                    id,
-                    titulo,
-                    descripcion,
-                    autor,
-                    fecha,
-                    categoria,
-                    etiquetas
-                FROM
-                    albumes
-                ORDER BY 
-                    :criterio
-                ";
+        $num = count($ficheros['tmp_name']);
 
-            # conectamos con la base de datos
+        $FileUploadErrors = array(
+            0 => 'Fichero subido con éxito.',
+            1 => 'El fichero subido excede la directiva upload_max_filesize de php.ini.',
+            2 => 'El fichero subido excede la directiva MAX_FILE_SIZE especificada en el formulario HTML.',
+            3 => 'El fichero fue sólo parcialmente subido.',
+            4 => 'No se subió ningún fichero.',
+            6 => 'Falta la carpeta temporal.',
+            7 => 'No se pudo escribir el fichero en el disco.',
+            8 => 'Una extensión de PHP detuvo la subida de ficheros.',
+        );
 
-            $conexion = $this->db->connect();
+        $error = null;
 
-            # ejecutamos mediante prepare
-            $pdostmt = $conexion->prepare($sql);
+        for ($i = 0; $i <= $num - 1 && is_null($error); $i++) {
+            if ($ficheros['error'][$i] != UPLOAD_ERR_OK) {
+                $error = $FileUploadErrors[$ficheros['error'][$i]];
+            } else {
+                $tamMaximo = 4194304;
+                if ($ficheros['size'][$i] > $tamMaximo) {
 
-            $pdostmt->bindParam(':criterio', $criterio, PDO::PARAM_INT);
+                    $error = "Archivo excede tamaño maximo 4MB";
 
-            # establecemos  tipo fetch
-            $pdostmt->setFetchMode(PDO::FETCH_OBJ);
-
-            #  ejecutamos 
-            $pdostmt->execute();
-
-            # devuelvo objeto pdostatement
-            return $pdostmt;
-
-        } catch (PDOException $e) {
-
-            include_once('template/partials/errorDB.php');
-            exit();
-
+                }
+                $info = new SplFileInfo($ficheros['name'][$i]);
+                $tipos_permitidos = ['JPG', 'JPEG', 'GIF', 'PNG'];
+                if (!in_array(strtoupper($info->getExtension()), $tipos_permitidos)) {
+                    $error = "Archivo no permitido. Seleccione una imagen.";
+                }
+            }
         }
-    }
 
-    public function filter($busqueda)
-    {
+        if (is_null($error)) {
+            for ($i = 0; $i <= $num - 1; $i++) {
+                if (is_uploaded_file($ficheros['tmp_name'][$i])) {
+                    move_uploaded_file($ficheros['tmp_name'][$i], "images/" . $carpeta . "/" . $ficheros['name'][$i]);
+                }
+            }
+            $_SESSION['mensaje'] = "Los archivos se han subido correctamente";
 
-        try {
+            unset($_SESSION['error']);
 
-            $sql = "
-
-                SELECT 
-                    id,
-                    titulo,
-                    descripcion,
-                    autor,
-                    fecha,
-                    categoria,
-                    etiquetas
-                FROM
-                    albumes
-                WHERE
-
-                    CONCAT_WS(  ', ', 
-                        id,
-                        titulo,
-                        descripcion,
-                        autor,
-                        fecha,
-                        categoria,
-                        etiquetas) 
-                    like :expresion
-
-                ORDER BY 
-                    albumes.id
-                
-                ";
-
-            $conexion = $this->db->connect();
-
-            $pdoSt = $conexion->prepare($sql);
-            
-            $pdoSt->bindValue(':busqueda', '%' . $busqueda . '%', PDO::PARAM_STR);
-        
-            $pdoSt->setFetchMode(PDO::FETCH_OBJ);
-            
-            $pdoSt->execute();
-            return $pdoSt;
-
-        } catch (PDOException $e) {
-
-            include "template/partials/errorDB.php";
-            // Para cortar la conexión.
-            exit();
-
+        } else {
+            $_SESSION['error'] = $error;
         }
-    }
-    
 
-    public function validarFecha(string $fecha)
-    {
-        $valores = explode('-', $fecha);
-        if (count($valores) == 3 && checkdate($valores[1], $valores[2], $valores[0])) {
-            return TRUE;
-        }
-        return FALSE;
     }
 
 
-public function subirArchivo($archivos, $carpeta){
-
-		$num = count($archivos['tmp_name']);
-
-		//Comprobamos antes si ha ocurrido algún errorde archivo
-		$phpFileUploadErrors = array(
-			0 => 'There is no error, the file uploaded with success',
-			1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
-			2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
-			3 => 'The uploaded file was only partially uploaded',
-			4 => 'No file was uploaded',
-			6 => 'Missing a temporary folder',
-			7 => 'Failed to write file to disk.',
-			8 => 'A PHP extension stopped the file upload.',
-		);
-		
-		$error = null;
-
-		for($i = 0; $i <= $num -1 && is_null($error); $i++){
-			if($archivos['error'][$i] != UPLOAD_ERR_OK){
-				$error = $phpFileUploadErrors[$archivos['error'][$i]];
-			}else{
-                                //Validar tamaño máximo 4mb
-                                $max_file = 4194304;
-                                if($archivos['size'][$i] > $max_file){
-
-                                        //Errores de tipo error
-                                        $error = "Archivo excede tamaño maximo 4MB";
-
-                                }
-                                $info = new SplFileInfo($archivos['name'][$i]);
-                                $tipos_permitidos = ['JPEG' , 'JPG', 'GIF', 'PNG'];
-                                if(!in_array(strtoupper($info->getExtension()), $tipos_permitidos)){
-                                        $error = "Tipo archivo no permitido. Sólo JPG, JPEG, GIF o PNG";
-                                }
-                        }
-		}
-
-		//Sólo se procederá a la subida de archivos en caso de no ocurrir ningun error
-		if(is_null($error)){
-			for($i = 0; $i <= $num -1; $i++){
-				if(is_uploaded_file($archivos['tmp_name'][$i])){
-					move_uploaded_file($archivos['tmp_name'][$i],"images/".$carpeta."/".$archivos['name'][$i]);
-				}
-			}
-			$_SESSION['mensaje'] = "Archivo/s subido/s con éxito";
-		}else{
-			$_SESSION['error'] = $error;
-		}
-
-        
-                
-	}
 
 }
 

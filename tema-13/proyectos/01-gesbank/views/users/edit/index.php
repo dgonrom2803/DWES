@@ -39,13 +39,17 @@
                     <div class="invalid-feedback"><?= $this->errores['email'] ?></div>
                 <?php endif; ?>
             </div>
-            <!-- Contraseña -->
+            
+
             <div class="mb-3">
-                <label for="password" class="form-label">Contraseña</label>
-                <input type="text" class="form-control <?= isset($this->errores['password']) ? 'is-invalid' : '' ?>" name="password" value="<?= isset($this->user->password) ? $this->user->password : '' ?>" required>
-                <?php if (isset($this->errores['password'])): ?>
-                    <div class="invalid-feedback"><?= $this->errores['password'] ?></div>
-                <?php endif; ?>
+                <label for="rol" class="form-label">Rol</label>
+                <select class="form-select" name="rol">
+                    <?php foreach ($this->roles as $rol): ?>
+                        <option value="<?= $rol->id ?>" <?= isset($this->user->rol) && $this->user->rol == $rol->id ? 'selected' : '' ?>>
+                            <?= $rol->name ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
             </div>
 
             <!-- botones de acción -->
