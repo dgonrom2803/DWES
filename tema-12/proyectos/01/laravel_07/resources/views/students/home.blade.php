@@ -11,6 +11,7 @@
 @section('contenido')
 {{-- Menu alumnos --}}
     @include('students.partials.menu')
+    @include('students.partials.alert')
 
     {{-- Lista alumnos --}}
     <table class="table">
@@ -40,9 +41,13 @@
                 
                 {{-- botones de accion --}}
                 <td>
-                    <a href="#" title="Editar"><i class="bi bi-pencil-fill"></i></a>
-                    <a href="#" title="Mostrar"><i class="bi bi-eye-fill"></i></a>
-                    <a href="#" title="Eliminar"><i class="bi bi-trash-fill" onclick="return confirm('¿Quieres borrar?')"></i></a>
+                    <a href="{{route('alumnos.edit', $alumno->id)}}" title="Editar" class="btn btn-warning"><i class="bi bi-pencil-fill"></i></a>
+                    <a href="{{route('alumnos.show', $alumno->id)}}" title="Mostrar" class="btn btn-success"><i class="bi bi-eye-fill"></i></a>
+                    <form style="display: inline" method="POST" action="{{route('alumnos.destroy', $alumno->id)}}">
+                        @csrf
+                        @method('DELETE')
+                    <button type="submit" title="Eliminar" class="btn btn-danger"><i class="bi bi-trash-fill" onclick="return confirm('¿Quieres borrar?')"></i></button>
+                    </form>
                 </td>
             </tr>
             @empty
